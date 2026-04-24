@@ -131,15 +131,29 @@ export default function SettingsPage() {
   }, [toast]);
 
   useEffect(() => {
+    if (!accommodationData) return;
+
+    const initialPricing = accommodationData?.globalConfig?.globalPricing || {};
+    const normalizedInitialPricing = JSON.stringify({
+      ...initialPricing,
+      customPeriods: initialPricing.customPeriods || [],
+    });
+
+    const normalizedCurrentPricing = JSON.stringify({
+      ...pricing,
+      customPeriods: customPeriods || [],
+    });
+
     const pricingChanged =
-      JSON.stringify({ ...pricing, customPeriods }) !==
-      JSON.stringify(accommodationData?.globalConfig?.globalPricing || {});
+      normalizedInitialPricing !== normalizedCurrentPricing;
+
     const semesterChanged =
       semesterEndDate !==
       (accommodationData?.globalConfig?.semesterEndDate || "");
     const mediaChanged =
       JSON.stringify(media) !== JSON.stringify(accommodationData?.media || []);
     const currencyChanged = currency !== (accommodationData?.currency || "GHS");
+
     setHasChanges(
       pricingChanged || semesterChanged || mediaChanged || currencyChanged,
     );

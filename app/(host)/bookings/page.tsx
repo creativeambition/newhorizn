@@ -99,8 +99,10 @@ function BookingsPageContent() {
     setHideCommissionAlert(true);
   };
 
+  const totalAcceptedCount = bookings.filter((b) => b.status !== "pending").length;
+
   const commissionLimitReached =
-    appConfig != null && bookings.length >= appConfig.freeBookings;
+    appConfig != null && totalAcceptedCount >= appConfig.freeBookings;
 
   const searchParams = useSearchParams();
 
@@ -482,9 +484,9 @@ function BookingsPageContent() {
                   Bookings
                 </h1>
                 {appConfig &&
-                  acceptedBookings.length < appConfig.freeBookings && (
+                  totalAcceptedCount < appConfig.freeBookings && (
                     <span className="text-xs font-medium bg-primary/10 text-primary px-2.5 py-1 rounded-full whitespace-nowrap">
-                      {acceptedBookings.length} / {appConfig.freeBookings} Free
+                      {totalAcceptedCount} / {appConfig.freeBookings} Free
                     </span>
                   )}
               </div>

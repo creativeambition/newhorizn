@@ -446,6 +446,7 @@ export class BookingService {
     newRoomId: string,
     paymentType: string,
     globalPricing?: PricingConfig,
+    newTotalPrice?: number,
   ): Promise<BookingDetails | null> {
     if (!this.accommodationId) {
       throw new Error("No accommodation ID found: Operation failed");
@@ -464,28 +465,19 @@ export class BookingService {
       const checkOutDate = new Date(existingBooking.checkOut);
 
       let totalPrice: number = 0;
-      if (paymentType === "semester") {
+      if (newTotalPrice !== undefined && newTotalPrice !== null) {
+        totalPrice = newTotalPrice;
+      } else if (paymentType === "semester") {
         totalPrice =
-          calculateRoomPrice(
-            newRoom,
-            isStudent,
-            "semester",
-            undefined,
-            globalPricing,
-          ) || 0;
+          calculateRoomPrice(newRoom, "semester", undefined, globalPricing) ||
+          0;
       } else if (paymentType === "week") {
         const weeks = Math.ceil(
           (checkOutDate.getTime() - checkInDate.getTime()) /
             (1000 * 60 * 60 * 24 * 7),
         );
         totalPrice =
-          calculateRoomPrice(
-            newRoom,
-            isStudent,
-            "week",
-            weeks,
-            globalPricing,
-          ) || 0;
+          calculateRoomPrice(newRoom, "week", weeks, globalPricing) || 0;
       } else if (paymentType === "month") {
         const months = Math.ceil(
           (checkOutDate.getTime() - checkInDate.getTime()) /
@@ -494,8 +486,13 @@ export class BookingService {
         totalPrice =
           calculateRoomPrice(newRoom, "month", months, globalPricing) || 0;
       } else if (paymentType === "year") {
+        const years =
+          Math.ceil(
+            (checkOutDate.getTime() - checkInDate.getTime()) /
+              (1000 * 60 * 60 * 24 * 365),
+          ) || 1;
         totalPrice =
-          calculateRoomPrice(newRoom, "year", undefined, globalPricing) || 0;
+          calculateRoomPrice(newRoom, "year", years, globalPricing) || 0;
       } else if (paymentType.startsWith("custom-")) {
         const customPeriodId = paymentType.replace("custom-", "");
         totalPrice =
@@ -512,13 +509,26 @@ export class BookingService {
             (1000 * 60 * 60 * 24),
         );
         totalPrice =
-          calculateRoomPrice(
-            newRoom,
-            isStudent,
-            "night",
-            nights,
-            globalPricing,
-          ) || 0;
+          calculateRoomPrice(newRoom, "night", nights, globalPricing) || 0;
+      }
+
+      // Handle payment status and amount if total price changed
+      let paymentStatus = existingBooking.paymentStatus;
+      let paymentAmount = existingBooking.paymentAmount;
+
+      if (totalPrice !== existingBooking.totalPrice) {
+        if (
+          paymentStatus === "paid_in_full" &&
+          totalPrice > existingBooking.totalPrice
+        ) {
+          paymentStatus = "deposit_paid";
+        } else if (
+          paymentStatus === "paid_in_full" &&
+          totalPrice < existingBooking.totalPrice
+        ) {
+          // If the price decreased and they were paid in full, update payment amount to match new total
+          paymentAmount = totalPrice;
+        }
       }
 
       const config = await this.getConfig();
@@ -540,6 +550,8 @@ export class BookingService {
         roomPrice: getRoomPerNightRate(newRoom, globalPricing),
         totalPrice,
         paymentType,
+        paymentStatus,
+        paymentAmount,
         commission,
       };
 
@@ -552,6 +564,8 @@ export class BookingService {
           room_price: bookingUpdate.roomPrice,
           total_price: bookingUpdate.totalPrice,
           payment_type: bookingUpdate.paymentType,
+          payment_status: bookingUpdate.paymentStatus,
+          payment_amount: bookingUpdate.paymentAmount,
           commission: bookingUpdate.commission,
         })
         .eq("id", bookingId)

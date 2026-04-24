@@ -133,7 +133,7 @@ export default function PaymentUpdateForm({
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="pending" id="pending" />
                 <Label htmlFor="pending" className="cursor-pointer">
-                  No Payment Yet (Pending)
+                  No Payment
                 </Label>
               </div>
               <div className="flex items-center space-x-2">

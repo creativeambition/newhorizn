@@ -59,7 +59,7 @@ export default function BookingDetailsView({
   const formatPaymentStatus = (status: PaymentStatus) => {
     switch (status) {
       case "pending":
-        return "No Payment (Pending)";
+        return "No Payment";
       case "deposit_paid":
         return "Deposit Paid";
       case "installment_plan":
@@ -212,48 +212,63 @@ export default function BookingDetailsView({
         </div>
 
         {/* Payment */}
-        <div className="space-y-3 pb-4 border-b">
+        <div className="space-y-4 pb-4 border-b">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground font-semibold">
               <CreditCard className="h-4 w-4" />
-              <span>Payment</span>
+              <span>Payment Details</span>
             </div>
             <Button
               variant="ghost"
               size="sm"
+              className="h-8 w-8 p-0"
               onClick={() => onUpdatePayment(booking)}
             >
               <Edit3 className="h-4 w-4" />
             </Button>
           </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold">
-                {accommodationData?.currency || "GHS"} {((booking.totalPrice || 0) - (booking.commission || 0)).toFixed(2)}
-              </div>
-              {(booking.commission ?? 0) > 0 && (
-                <div className="text-xs text-muted-foreground mt-0.5">
-                  Total billed: {accommodationData?.currency || "GHS"} {(booking.totalPrice || 0).toFixed(2)}
-                </div>
-              )}
-            </div>
-            <Badge className={getPaymentStatusColor(booking.paymentStatus)}>
-              {formatPaymentStatus(booking.paymentStatus)}
-            </Badge>
-          </div>
 
-          {/* Commission Info */}
-          <div className="flex items-center justify-between text-sm py-2 px-3 bg-muted/30 rounded-lg border border-border/50">
-            <div className="flex items-center gap-2 text-muted-foreground font-medium">
-              <ClipboardList className="h-4 w-4" />
-              <span>Platform Fee{appConfig && (booking.commission ?? 0) > 0 ? ` (${(appConfig.commissionRate * 100).toFixed(0)}%)` : ""}</span>
+          <div className="space-y-2.5">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Total Billed</span>
+              <span className="font-medium">
+                {accommodationData?.currency || "GHS"}{" "}
+                {(booking.totalPrice || 0).toFixed(2)}
+              </span>
             </div>
-            <div className="font-semibold">
-              {(booking.commission ?? 0) > 0 ? (
-                <span className="text-primary">{accommodationData?.currency || "GHS"} {booking.commission!.toFixed(2)}</span>
-              ) : (
-                <span className="text-green-600 dark:text-green-400">Free</span>
-              )}
+
+            {(booking.commission ?? 0) > 0 && (
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">
+                  Platform Fee
+                  {appConfig && (
+                    <span className="ml-1.5 text-[10px] text-muted-foreground/70">
+                      ({(appConfig.commissionRate * 100).toFixed(0)}%)
+                    </span>
+                  )}
+                </span>
+                <span className="text-destructive font-medium">
+                  - {accommodationData?.currency || "GHS"}{" "}
+                  {(booking.commission || 0).toFixed(2)}
+                </span>
+              </div>
+            )}
+
+            <div className="pt-3 mt-1 border-t flex justify-between items-center">
+              <div>
+                <div className="text-sm font-bold">Net Total</div>
+                <Badge
+                  className={`mt-1 h-5 text-[10px] font-bold ${getPaymentStatusColor(booking.paymentStatus)}`}
+                >
+                  {formatPaymentStatus(booking.paymentStatus)}
+                </Badge>
+              </div>
+              <div className="text-2xl font-bold text-primary">
+                {accommodationData?.currency || "GHS"}{" "}
+                {(
+                  (booking.totalPrice || 0) - (booking.commission || 0)
+                ).toFixed(2)}
+              </div>
             </div>
           </div>
 
@@ -301,7 +316,7 @@ export default function BookingDetailsView({
 
         {/* Delete */}
         <Button
-          variant="destructive"
+          variant="ghost"
           className="w-full"
           onClick={() => setDeleteDialogOpen(true)}
           disabled={isDeleting}
@@ -331,10 +346,10 @@ export default function BookingDetailsView({
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
-                onClick={async () => {
+                onClick={() => {
                   setIsCheckingOut(true);
                   try {
-                    await onCheckout?.(booking);
+                    onCheckout?.(booking);
                     setCheckoutDialogOpen(false);
                   } finally {
                     setIsCheckingOut(false);

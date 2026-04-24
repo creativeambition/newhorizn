@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -10,14 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 
-import { ReactNode, useEffect } from "react";
-import { CalendarX, Eye, Pen } from "lucide-react";
-import { Loading } from "../loading";
 import { useAppContext } from "@/lib/context/app-context";
-import { BookingDetails } from "@/lib/types";
 import { useAuth } from "@/lib/context/auth-context";
+import { BookingDetails } from "@/lib/types";
+import { CalendarX, Eye, Pen } from "lucide-react";
+import { ReactNode } from "react";
+import { Loading } from "../loading";
 
 type BookingTableProps = {
   bookings: BookingDetails[];
@@ -126,16 +126,17 @@ export default function BookingTable({
                     <TableCell>{formatDateValue(booking.checkOut)}</TableCell>
                     <TableCell>
                       <span
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${booking.status === "pending"
-                          ? "bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400"
-                          : booking.status === "declined"
-                            ? "bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400"
-                            : booking.status === "upcoming"
-                              ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
-                              : booking.status === "active"
-                                ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400"
-                                : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400"
-                          }`}
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                          booking.status === "pending"
+                            ? "bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400"
+                            : booking.status === "declined"
+                              ? "bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400"
+                              : booking.status === "upcoming"
+                                ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
+                                : booking.status === "active"
+                                  ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400"
+                                  : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400"
+                        }`}
                       >
                         {booking.status === "pending"
                           ? "Pending"
@@ -155,7 +156,10 @@ export default function BookingTable({
                         {formatPaymentStatus(booking.paymentStatus)}
                       </Badge>
                     </TableCell>
-                    <TableCell>{accommodationData?.currency || "GHS"} {booking.totalPrice}</TableCell>
+                    <TableCell>
+                      {accommodationData?.currency || "GHS"}{" "}
+                      {booking.totalPrice}
+                    </TableCell>
                     <TableCell className="text-right sticky right-0 bg-linear-to-r from-transparent to-background">
                       {booking.status === "pending" ? (
                         <div className="flex gap-2 justify-end">
@@ -181,6 +185,7 @@ export default function BookingTable({
                             variant="ghost"
                             size="sm"
                             onClick={() => onViewBooking(booking.id)}
+                            className="bg-background/40 backdrop-blur-sm border"
                           >
                             <Eye />
                             View

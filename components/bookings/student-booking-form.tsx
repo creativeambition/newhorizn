@@ -95,6 +95,7 @@ type BookingFormProps = {
     bookingId: string,
     roomId: string,
     paymentType: string,
+    totalPrice?: number,
   ) => Promise<BookingDetails | null>;
 };
 
@@ -186,7 +187,7 @@ export default function StudentBookingForm({
     paymentAmount: 0,
     paymentNotes: "",
     totalPrice: 0,
-    paymentType: isEdit
+    paymentType: (isEdit || isEditRoomInfo)
       ? (bookingToEdit?.paymentType ?? "semester")
       : "semester",
   });
@@ -212,8 +213,59 @@ export default function StudentBookingForm({
   }, [bookingToEdit]);
 
   const [paymentType, setPaymentType] = useState(() =>
-    isEdit ? (bookingToEdit?.paymentType ?? "semester") : "semester",
+    isEdit || isEditRoomInfo ? (bookingToEdit?.paymentType ?? "semester") : "semester",
   );
+
+  const [duration, setDuration] = useState(() => {
+    if (bookingToEdit && (isEdit || isEditRoomInfo)) {
+      const start = new Date(bookingToEdit.checkIn);
+      const end = new Date(bookingToEdit.checkOut);
+      const diffMs = end.getTime() - start.getTime();
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      switch (bookingToEdit.paymentType) {
+        case "week":
+          return Math.ceil(diffDays / 7) || 1;
+        case "month":
+          return Math.ceil(diffDays / 30) || 1;
+        case "year":
+          return Math.ceil(diffDays / 365) || 1;
+        case "night":
+          return diffDays || 1;
+        default:
+          return 1;
+      }
+    }
+    return 1;
+  });
+
+  useEffect(() => {
+    if (bookingToEdit && (isEdit || isEditRoomInfo)) {
+      setPaymentType(bookingToEdit.paymentType || "semester");
+
+      const start = new Date(bookingToEdit.checkIn);
+      const end = new Date(bookingToEdit.checkOut);
+      const diffMs = end.getTime() - start.getTime();
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      let newDuration = 1;
+      switch (bookingToEdit.paymentType) {
+        case "week":
+          newDuration = Math.ceil(diffDays / 7) || 1;
+          break;
+        case "month":
+          newDuration = Math.ceil(diffDays / 30) || 1;
+          break;
+        case "year":
+          newDuration = Math.ceil(diffDays / 365) || 1;
+          break;
+        case "night":
+          newDuration = diffDays || 1;
+          break;
+      }
+      setDuration(newDuration);
+    }
+  }, [bookingToEdit, isEdit, isEditRoomInfo]);
 
   const [isNewGuest, setIsNewGuest] = useState(false);
   const [newGuestData, setNewGuestData] = useState<NewGuestData>({
@@ -233,7 +285,6 @@ export default function StudentBookingForm({
   const [roomSearchQuery, setRoomSearchQuery] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [manualPrice, setManualPrice] = useState<number | null>(null);
-  const [duration, setDuration] = useState(1);
   const { toast } = useToast();
 
   // Get available payment types for selected room and booking type
@@ -718,6 +769,7 @@ export default function StudentBookingForm({
         bookingToEdit.id,
         newBooking.roomId,
         paymentType,
+        manualPrice ?? totalPrice,
       );
       if (result) {
         toast({
@@ -1605,7 +1657,7 @@ export default function StudentBookingForm({
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="pending" id="pending-mobile" />
                     <Label htmlFor="pending-mobile" className="cursor-pointer">
-                      No Payment Yet (Pending)
+                      No Payment
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">

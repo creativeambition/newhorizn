@@ -10,10 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useExplorePage } from "@/lib/context/explore-page-context";
 import { Accommodation, Room } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -153,41 +150,41 @@ export default function AccommodationPage({ params }: PageProps) {
                     </CarouselItem>
                   ))
                 : accommodation.rooms &&
-                  accommodation.rooms.length > 0 &&
-                  accommodation.rooms.some(
-                    (r) => r.media && r.media.length > 0,
-                  )
-                ? // Fallback to room media if no accommodation level media exists
-                  accommodation.rooms
-                    .flatMap((r) => r.media || [])
-                    .slice(0, 5)
-                    .map((mediaItem, i) => (
+                    accommodation.rooms.length > 0 &&
+                    accommodation.rooms.some(
+                      (r) => r.media && r.media.length > 0,
+                    )
+                  ? // Fallback to room media if no accommodation level media exists
+                    accommodation.rooms
+                      .flatMap((r) => r.media || [])
+                      .slice(0, 5)
+                      .map((mediaItem, i) => (
+                        <CarouselItem
+                          key={i}
+                          className="pl-0 basis-full shrink-0 md:basis-[calc(70%-0.5rem)] lg:basis-[calc(60%-0.667rem)] xl:basis-[calc(55%-0.667rem)]"
+                        >
+                          <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted">
+                            <img
+                              src={mediaItem.url}
+                              alt={
+                                mediaItem.title ||
+                                accommodation.accommodationName
+                              }
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                          </div>
+                        </CarouselItem>
+                      ))
+                  : [1, 2, 3].map((i) => (
                       <CarouselItem
                         key={i}
                         className="pl-0 basis-full shrink-0 md:basis-[calc(70%-0.5rem)] lg:basis-[calc(60%-0.667rem)] xl:basis-[calc(55%-0.667rem)]"
                       >
-                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted">
-                          <img
-                            src={mediaItem.url}
-                            alt={
-                              mediaItem.title ||
-                              accommodation.accommodationName
-                            }
-                            className="absolute inset-0 w-full h-full object-cover"
-                          />
+                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-linear-to-br from-primary/20 to-primary/5">
+                          {/* Placeholder gradient */}
                         </div>
                       </CarouselItem>
-                    ))
-                : [1, 2, 3].map((i) => (
-                    <CarouselItem
-                      key={i}
-                      className="pl-0 basis-full shrink-0 md:basis-[calc(70%-0.5rem)] lg:basis-[calc(60%-0.667rem)] xl:basis-[calc(55%-0.667rem)]"
-                    >
-                      <div className="relative aspect-video rounded-2xl overflow-hidden bg-linear-to-br from-primary/20 to-primary/5">
-                        {/* Placeholder gradient */}
-                      </div>
-                    </CarouselItem>
-                  ))}
+                    ))}
               {/* Spacer for end padding */}
               <div className="basis-3 lg:basis-12 shrink-0" />
             </CarouselContent>
@@ -229,7 +226,9 @@ export default function AccommodationPage({ params }: PageProps) {
               onClick={() => setRoomType("all")}
               className={cn(
                 "gap-2 transition-opacity duration-200",
-                roomType === "all" ? "opacity-0 pointer-events-none" : "opacity-100",
+                roomType === "all"
+                  ? "opacity-0 pointer-events-none"
+                  : "opacity-100",
               )}
             >
               <X className="h-4 w-4" />

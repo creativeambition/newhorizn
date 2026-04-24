@@ -412,10 +412,16 @@ function BookingsPageContent() {
     bookingId: string,
     roomId: string,
     paymentType: string,
+    totalPrice?: number,
   ) => {
     setisBooking(true);
     try {
-      const result = await updateRoomInfo(bookingId, roomId, paymentType);
+      const result = await updateRoomInfo(
+        bookingId,
+        roomId,
+        paymentType,
+        totalPrice,
+      );
       if (result) {
         toast({
           title: "Success",
@@ -518,7 +524,7 @@ function BookingsPageContent() {
                       checked={paymentFilters.includes("pending")}
                       onCheckedChange={() => togglePaymentFilter("pending")}
                     >
-                      No Payment (Pending)
+                      No Payment
                     </DropdownMenuCheckboxItem>
                     <DropdownMenuCheckboxItem
                       checked={paymentFilters.includes("deposit_paid")}
@@ -564,7 +570,7 @@ function BookingsPageContent() {
 
           {/* Commission limit alert */}
           {commissionLimitReached && !hideCommissionAlert && (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md dark:bg-yellow-900/20 dark:border-yellow-600">
+            <div className="relative bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md dark:bg-yellow-900/20 dark:border-yellow-600">
               <div className="flex items-start">
                 <AlertCircle className="min-h-5 min-w-5 text-yellow-400 dark:text-yellow-500 mt-0.5 mr-3" />
                 <div>
@@ -580,7 +586,7 @@ function BookingsPageContent() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="ml-auto h-6 w-6 shrink-0 opacity-70 hover:opacity-100"
+                  className="absolute top-2 right-2 h-7 w-7"
                   onClick={dismissCommissionAlert}
                 >
                   <X className="h-4 w-4" />
@@ -591,8 +597,16 @@ function BookingsPageContent() {
 
           {/* Pending Payments Warning */}
           {showPendingWarning && pendingPaymentsCount > 0 && (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md dark:bg-yellow-900/20 dark:border-yellow-600">
-              <div className="flex items-start">
+            <div className="relative bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md dark:bg-yellow-900/20 dark:border-yellow-600">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-2 right-2 h-7 w-7"
+                onClick={() => setShowPendingWarning(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              <div className="flex items-start pr-6">
                 <AlertCircle className="min-h-5 min-w-5 text-yellow-400 dark:text-yellow-500 mt-0.5 mr-3" />
                 <div>
                   <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
@@ -605,16 +619,6 @@ function BookingsPageContent() {
                       status. Please update their payment status or cancel them
                       if payment is not received.
                     </p>
-                  </div>
-                  <div className="mt-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-yellow-800 bg-yellow-100 hover:bg-yellow-200 border-yellow-300 dark:text-yellow-200 dark:bg-yellow-900/30 dark:hover:bg-yellow-900/50 dark:border-yellow-800"
-                      onClick={() => setShowPendingWarning(false)}
-                    >
-                      Dismiss
-                    </Button>
                   </div>
                 </div>
               </div>

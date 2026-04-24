@@ -55,6 +55,7 @@ type AppContextType = {
     bookingId: string,
     roomId: string,
     paymentType: string,
+    totalPrice?: number,
   ) => Promise<BookingDetails | null>;
   updatePayment: (
     bookingId: string,
@@ -510,13 +511,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
         return null;
       }
     },
-    updateRoomInfo: async (bookingId, roomId, paymentType) => {
+    updateRoomInfo: async (bookingId, roomId, paymentType, totalPrice) => {
       try {
         const result = await bookingService.updateRoomInfo(
           bookingId,
           roomId,
           paymentType,
           accommodationData?.globalConfig?.globalPricing,
+          totalPrice,
         );
         if (result) {
           const oldRoomId = (result as any).oldRoomId;

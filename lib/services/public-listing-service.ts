@@ -24,7 +24,7 @@ async function fetchAvailableBeds(
     .from("bookings")
     .select("id, room_id, check_in, check_out, status")
     .eq("room_id", roomId)
-    .in("status", ["active", "upcoming"]);
+    .in("status", ["active", "upcoming", "pending"]);
 
   const bookings: BookingDetails[] = (data || []).map((b: any) => ({
     id: b.id,

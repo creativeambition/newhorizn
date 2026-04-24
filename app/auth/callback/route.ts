@@ -21,7 +21,9 @@ export async function GET(request: NextRequest) {
 
   // After exchange, check if the user has completed onboarding.
   // If not, send them there regardless of the intended `next` destination.
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (user) {
     const { data: accommodation } = await supabase
       .from("accommodations")

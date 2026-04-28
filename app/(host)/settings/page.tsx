@@ -1,32 +1,12 @@
 "use client";
 
+import { useTheme } from "@/components/theme-provider";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DatePicker } from "@/components/ui/date-picker";
-import { useAuth } from "@/lib/context/auth-context";
-import { PricingConfig } from "@/lib/types";
-import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2, DollarSign, Calendar, Palette } from "lucide-react";
-import { useTheme } from "@/components/theme-provider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { createClient } from "@/lib/supabase/client";
-import { SUPABASE_CONFIG } from "@/lib/supabase/config";
-import {
-  Trash,
-  UploadCloud,
-  X as XIcon,
-  ImageIcon,
-  Zap,
-  AlertCircle,
-} from "lucide-react";
-import Image from "next/image";
-import clsx from "clsx";
-import { useSubscription } from "@/lib/context/subscription-context";
-import { getMediaLimitsForPlan } from "@/lib/subscription/subscription";
-import Link from "next/link";
-import { sanitizeFilename } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -34,8 +14,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/lib/context/auth-context";
+import { createClient } from "@/lib/supabase/client";
+import { SUPABASE_CONFIG } from "@/lib/supabase/config";
+import { PricingConfig, DEFAULT_MEDIA_LIMITS } from "@/lib/types";
+import { sanitizeFilename } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import clsx from "clsx";
+import {
+  AlertCircle,
+  Calendar,
+  CheckCircle,
+  DollarSign,
+  ImageIcon,
+  Loader2,
+  Palette,
+  Trash,
+  UploadCloud,
+  X as XIcon,
+  Zap,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 function formatBytes(bytes: number): string {
   if (bytes >= 1_073_741_824) return `${(bytes / 1_073_741_824).toFixed(1)} GB`;
@@ -86,12 +95,14 @@ export default function SettingsPage() {
   );
   const [previews, setPreviews] = useState<{ [key: number]: string }>({});
   const [uploading, setUploading] = useState(false);
-
-  const { subscriptionStatus } = useSubscription();
-  const limits = getMediaLimitsForPlan(subscriptionStatus?.plan);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
 
   const imageCount = media.length;
-  const imagesFull = false; // Unlimited photos in new model
+  const limits =
+    accommodationData?.globalConfig?.mediaLimits || DEFAULT_MEDIA_LIMITS;
+  const imagesFull =
+    !isUnlimited(limits.photosPerAccommodation) &&
+    imageCount >= limits.photosPerAccommodation;
 
   const [payoutNetwork, setPayoutNetwork] = useState(
     accommodationData?.payout_network || "",
@@ -240,6 +251,7 @@ export default function SettingsPage() {
     try {
       await updateAccommodation({
         globalConfig: {
+          ...(accommodationData?.globalConfig || {}), // Preserve existing properties like mediaLimits
           globalPricing: { ...pricing, customPeriods },
           semesterEndDate,
         },
@@ -356,15 +368,6 @@ export default function SettingsPage() {
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    if (file.size > limits.maxImageBytes) {
-      toast({
-        title: "File too large",
-        description: `Images must be under ${formatBytes(limits.maxImageBytes)} on your plan.`,
-        variant: "destructive",
-      });
-      return;
-    }
 
     const previewUrl = URL.createObjectURL(file);
     setPendingPhotos((prev) => ({ ...prev, [index]: file }));
@@ -498,7 +501,7 @@ export default function SettingsPage() {
             <div className="flex overflow-x-auto pt-6 pb-6 gap-6 no-scrollbar scroll-smooth -mx-1 px-1">
               {Array.from({
                 length: Math.min(
-                  limits.photosPerAccommodation,
+                  10,
                   Math.max(
                     5,
                     media.length + 1,
@@ -593,12 +596,12 @@ export default function SettingsPage() {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          removeMedia(index);
+                          setDeleteIndex(index);
                         }}
-                        className="absolute -top-2 -right-2 p-1.5 bg-destructive text-destructive-foreground rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                        className="absolute top-2 right-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/80 hover:bg-red-500 hover:text-white transition-all duration-200 backdrop-blur-sm"
                         title="Delete image"
                       >
-                        <Trash className="h-4 w-4" />
+                        <Trash className="h-3.5 w-3.5" />
                       </button>
                     )}
 
@@ -996,7 +999,7 @@ export default function SettingsPage() {
         )}
 
         {/* Payout Settings Section */}
-        <div id="payout" className="border rounded-lg bg-card overflow-hidden">
+        {/* <div id="payout" className="border rounded-lg bg-card overflow-hidden">
           <div className="border-b p-4 sm:p-6 bg-muted/30">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -1056,42 +1059,6 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            {/* Verification Section */}
-            {/* {accommodationData?.paystack_subaccount_code &&
-              !accommodationData?.payout_verified && (
-                <div className="border rounded-lg p-4 bg-amber-50 dark:bg-amber-900/20">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
-                    <div className="flex-1 space-y-3">
-                      <div>
-                        <h3 className="font-medium text-amber-800 dark:text-amber-200">
-                          Verify Your Mobile Number
-                        </h3>
-                        <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                          To accept bookings, verify ownership by completing a
-                          GHS1.00 charge that will be immediately refunded.
-                        </p>
-                      </div>
-
-                      <div className="flex justify-start">
-                        <Button
-                          onClick={verifyPayoutNumber}
-                          disabled={verifyingNumber || !payoutNumber}
-                          className="bg-amber-600 hover:bg-amber-700 text-white"
-                        >
-                          {verifyingNumber ? (
-                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                          ) : null}
-                          {verifyingNumber
-                            ? "Starting Verification..."
-                            : "Verify Mobile Number"}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )} */}
-
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t">
               <div className="text-sm text-muted-foreground max-w-md">
                 {accommodationData?.paystack_subaccount_code ? (
@@ -1142,7 +1109,7 @@ export default function SettingsPage() {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Theme Settings Section */}
         <div className="border rounded-lg bg-card">
@@ -1223,6 +1190,35 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
+
+      <AlertDialog
+        open={deleteIndex !== null}
+        onOpenChange={(open) => !open && setDeleteIndex(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove this photo?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will remove the photo from your accommodation. Remember to
+              click "Save Changes" at the bottom to finalize this change.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (deleteIndex !== null) {
+                  removeMedia(deleteIndex);
+                  setDeleteIndex(null);
+                }
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              Remove
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </main>
   );
 }

@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AppProvider } from "@/lib/context/app-context";
 import { AuthProvider } from "@/lib/context/auth-context";
-import { SubscriptionProvider } from "@/lib/context/subscription-context";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -126,10 +125,8 @@ export default async function RootLayout({
         <QueryProvider>
           <ThemeProvider>
             <AuthProvider>
-              <SubscriptionProvider>
-                <AppProvider>{children}</AppProvider>
-                <Toaster />
-              </SubscriptionProvider>
+              <AppProvider>{children}</AppProvider>
+              <Toaster />
             </AuthProvider>
           </ThemeProvider>
         </QueryProvider>

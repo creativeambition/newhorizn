@@ -47,7 +47,6 @@ const LISTING_TYPE_LABELS: Record<(typeof LISTING_TYPES)[number], string> = {
   apartment: "Apartment",
   hotel: "Hotel",
   guesthouse: "Guesthouse",
-  studio: "Studio",
   other: "Other",
 };
 
@@ -303,7 +302,7 @@ export default function OnboardingContent() {
                           <FormControl>
                             <Input
                               {...field}
-                              placeholder="e.g. Sunshine Accommodation"
+                              placeholder="eg. New Horizon"
                               className="h-11 text-base"
                               autoFocus
                             />

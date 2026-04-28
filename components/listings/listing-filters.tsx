@@ -1,16 +1,12 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
-  Search,
-  SlidersHorizontal,
-  X,
-  ChevronDown,
-  Check,
-  Filter,
-} from "lucide-react";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Sheet,
   SheetContent,
@@ -18,21 +14,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { Check, ChevronDown, SlidersHorizontal, X, Search } from "lucide-react";
 import { toast } from "sonner";
 
 type FilterProps = {
-  search: string;
-  onSearchChange: (value: string) => void;
+  search?: string;
+  onSearchChange?: (value: string) => void;
   institution: string;
   onInstitutionChange: (value: string) => void;
   listingType: string;
   onListingTypeChange: (value: string) => void;
+  onClearAll?: () => void;
   resultCount?: number;
 };
 
@@ -71,6 +64,7 @@ export function ListingFilters({
   onInstitutionChange,
   listingType,
   onListingTypeChange,
+  onClearAll,
   resultCount,
 }: FilterProps) {
   const handleListingTypeChange = (value: string) => {
@@ -96,9 +90,12 @@ export function ListingFilters({
   ].filter(Boolean).length;
 
   const handleClearAll = () => {
-    onSearchChange("");
-    onInstitutionChange("all");
-    onListingTypeChange("all");
+    if (onClearAll) {
+      onClearAll();
+    } else {
+      onInstitutionChange("all");
+      onListingTypeChange("all");
+    }
   };
 
   const FilterDropdown = ({
@@ -196,14 +193,15 @@ export function ListingFilters({
   );
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1 max-w-md">
+    <div className="space-y-2">
+      <div className="flex flex-col sm:flex-row gap-3 justify-end w-full">
+        {/* Mobile Search Bar */}
+        <div className="relative flex-1 w-full sm:hidden">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by name, location, or institution..."
-            value={search}
-            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search by location, or institution.."
+            value={search || ""}
+            onChange={(e) => onSearchChange?.(e.target.value)}
             className="pl-11 h-12 rounded-xl border-muted-foreground/20 focus-visible:ring-2 transition-shadow"
           />
         </div>
@@ -221,7 +219,7 @@ export function ListingFilters({
                     "bg-primary/10 text-primary hover:bg-primary/15 ring-1 ring-primary/20",
                 )}
               >
-                <Filter
+                <SlidersHorizontal
                   className={cn(
                     "h-5 w-5 transition-all",
                     !canFilterFurther &&
@@ -267,6 +265,17 @@ export function ListingFilters({
               onChange={(value) => handleListingTypeChange(String(value))}
               type="listing"
             />
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearAll}
+                className="rounded-full text-muted-foreground hover:text-foreground h-9 px-3"
+              >
+                <X className="h-4 w-4 mr-1" />
+                Clear
+              </Button>
+            )}
           </div>
         </div>
       </div>

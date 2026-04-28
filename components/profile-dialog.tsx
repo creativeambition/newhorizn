@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { supabase } from "@/lib/supabase/client";
 import { SUPABASE_CONFIG } from "@/lib/supabase/config";
-import { Accommodation } from "@/lib/types";
+import { Accommodation, DEFAULT_MEDIA_LIMITS } from "@/lib/types";
 import { cn, sanitizeFilename } from "@/lib/utils";
 import clsx from "clsx";
 import {
@@ -117,12 +117,12 @@ export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
     const file = e.target.files?.[0];
     if (!file || !user) return;
 
-    // Check plan-specific limits (using standard high limit if plan logic removed)
-    const maxImageBytes = 10485760; // 10MB default
+    const limits = accommodationData?.globalConfig?.mediaLimits || DEFAULT_MEDIA_LIMITS;
+    const maxImageBytes = limits.maxImageBytes;
     if (file.size > maxImageBytes) {
       toast({
         title: "File too large",
-        description: `Images must be under 10 MB.`,
+        description: `Images must be under ${Math.round(maxImageBytes / 1048576)} MB.`,
         variant: "destructive",
       });
       return;

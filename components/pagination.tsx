@@ -50,7 +50,7 @@ export function Pagination({
             {[...Array(Math.min(3, totalPages))].map((_, i) => (
               <Button
                 key={i}
-                variant={currentPage === i ? "default" : "outline-solid"}
+                variant={currentPage === i ? "default" : "outline"}
                 size="sm"
                 onClick={() => onPageChange(i)}
               >
@@ -72,7 +72,7 @@ export function Pagination({
               <Button
                 key={totalPages - 3 + i}
                 variant={
-                  currentPage === totalPages - 3 + i ? "default" : "outline-solid"
+                  currentPage === totalPages - 3 + i ? "default" : "outline"
                 }
                 size="sm"
                 onClick={() => onPageChange(totalPages - 3 + i)}
@@ -86,7 +86,7 @@ export function Pagination({
             {[...Array(totalPages)].map((_, i) => (
               <Button
                 key={i}
-                variant={currentPage === i ? "default" : "outline-solid"}
+                variant={currentPage === i ? "default" : "outline"}
                 size="sm"
                 onClick={() => onPageChange(i)}
               >

@@ -36,7 +36,9 @@ const AccommodationsContent = () => {
     },
   });
 
-  const accommodations = Array.isArray(accommodationsData) ? accommodationsData : [];
+  const accommodations = Array.isArray(accommodationsData)
+    ? accommodationsData
+    : [];
 
   // Read state from URL
   const search = searchParams.get("search") || "";
@@ -56,6 +58,10 @@ const AccommodationsContent = () => {
     },
     [pathname, router, searchParams],
   );
+
+  const clearAllParams = useCallback(() => {
+    router.replace(pathname, { scroll: false });
+  }, [pathname, router]);
 
   const filteredAccommodations = useMemo(() => {
     let filtered = [...accommodations];
@@ -91,7 +97,7 @@ const AccommodationsContent = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="mx-auto px-4 lg:px-12 py-8">
+      <main className="mx-auto px-4 lg:px-12 py-8 pt-3">
         <div className="mb-8">
           <ListingFilters
             search={search}
@@ -100,6 +106,7 @@ const AccommodationsContent = () => {
             onInstitutionChange={(v) => updateParam("institution", v)}
             listingType={listingType}
             onListingTypeChange={(v) => updateParam("listingType", v)}
+            onClearAll={clearAllParams}
             resultCount={filteredAccommodations.length}
           />
         </div>
@@ -124,7 +131,9 @@ const AccommodationsContent = () => {
             ))}
             {/* Show ghost cards if count is low or zero */}
             {filteredAccommodations.length < 12 &&
-              Array.from({ length: filteredAccommodations.length === 0 ? 16 : 12 }).map((_, i) => (
+              Array.from({
+                length: filteredAccommodations.length === 0 ? 16 : 12,
+              }).map((_, i) => (
                 <GhostListingCard key={`ghost-${i}`} index={i} />
               ))}
           </div>

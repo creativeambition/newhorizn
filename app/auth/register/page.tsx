@@ -35,7 +35,7 @@ import { Logo } from "@/components/ui/logo";
 type FormData = z.infer<typeof registerSchema>;
 
 const SIGNUP_BG_IMAGE =
-  "https://images.unsplash.com/photo-1562602136-b64ddd991ea2?q=80&w=927&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  "https://images.unsplash.com/photo-1666986201259-74753b60a43f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
 function RegisterationForm() {
   const [loading, setLoading] = useState(false);
@@ -121,7 +121,8 @@ function RegisterationForm() {
               Create your account
             </CardTitle>
             <CardDescription className="text-sm">
-              Email and password. You’ll add accommodation details next.
+              Enter your email and password. You'll add your property details
+              after.
             </CardDescription>
           </CardHeader>
           <div className="absolute inset-0 bg-linear-to-b from-black/30 to-background lg:bg-linear-to-r lg:from-black/30 lg:to-transparent" />
@@ -143,7 +144,8 @@ function RegisterationForm() {
                     Create your account
                   </CardTitle>
                   <CardDescription className="text-sm">
-                    Email and password. You’ll add accommodation details next.
+                    Enter your email and password. You'll add your property
+                    details after.
                   </CardDescription>
                 </CardHeader>
 
@@ -255,7 +257,21 @@ function RegisterationForm() {
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
-                    By signing up you agree to our terms and privacy policy.
+                    By signing up, you agree to our{" "}
+                    <Link
+                      href="/terms"
+                      className="underline underline-offset-2 hover:text-foreground transition-colors"
+                    >
+                      Terms
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="/privacy"
+                      className="underline underline-offset-2 hover:text-foreground transition-colors"
+                    >
+                      Privacy Policy
+                    </Link>
+                    .
                   </p>
 
                   <p className="text-sm text-center text-muted-foreground">
@@ -273,34 +289,6 @@ function RegisterationForm() {
           </Card>
         </main>
       </div>
-
-      {/* <footer className="py-4 px-4 md:px-6 border-t border-border/60 shrink-0">
-        <div className="container flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} newhorizn. All rights reserved.
-          </p>
-          <nav className="flex gap-4 sm:gap-6">
-            <Link
-              className="text-xs text-muted-foreground hover:text-foreground hover:underline underline-offset-4 transition-colors"
-              href="#"
-            >
-              Terms
-            </Link>
-            <Link
-              className="text-xs text-muted-foreground hover:text-foreground hover:underline underline-offset-4 transition-colors"
-              href="#"
-            >
-              Privacy
-            </Link>
-            <Link
-              className="text-xs text-muted-foreground hover:text-foreground hover:underline underline-offset-4 transition-colors"
-              href="#"
-            >
-              Contact
-            </Link>
-          </nav>
-        </div>
-      </footer> */}
     </div>
   );
 }

@@ -16,13 +16,13 @@ export default function NotFound() {
 
       <div className="relative z-10 w-full max-w-md text-center">
         {/* Logo/Icon area */}
-        <div className="mb-8 flex justify-center animate-fade-in">
+        {/* <div className="mb-8 flex justify-center animate-fade-in">
           <div className="relative">
             <div className="p-6 rounded-3xl bg-primary/5 glass border border-primary/10 animate-float">
               <Compass className="size-16 text-primary" strokeWidth={1.5} />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Text Content */}
         <div className="space-y-4 animate-fade-in-up">
@@ -40,38 +40,13 @@ export default function NotFound() {
           className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up"
           style={{ animationDelay: "0.2s" }}
         >
-          <Button
-            size="lg"
-            className="w-full sm:w-auto h-12 px-8 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl transition-all duration-300 gap-2"
-            asChild
-          >
-            <Link href="/">
-              <Home className="size-4" />
-              Return Home
-            </Link>
-          </Button>
-
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full sm:w-auto h-12 px-8 rounded-xl glass hover:bg-primary/5 transition-all duration-300 gap-2"
-            onClick={() => window.history.back()}
+          <Link
+            className="w-full flex flex-row items-center justify-center sm:w-auto h-12 px-8 rounded-xl glass hover:bg-primary/5 transition-all duration-300 gap-2"
+            href="/"
           >
             <ArrowLeft className="size-4" />
             Go Back
-          </Button>
-        </div>
-
-        {/* Decorative elements */}
-        <div
-          className="mt-16 pt-8 border-t border-border/50 animate-fade-in"
-          style={{ animationDelay: "0.4s" }}
-        >
-          <div className="flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground/50">
-            <span className="size-1.5 rounded-full bg-primary/20" />
-            Lost in newhorizn
-            <span className="size-1.5 rounded-full bg-primary/20" />
-          </div>
+          </Link>
         </div>
       </div>
     </main>

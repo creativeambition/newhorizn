@@ -55,9 +55,26 @@ export type Room = {
   amenities: string[];
 };
 
+export type MediaLimits = {
+  photosPerRoom: number;
+  videosPerRoom: number;
+  photosPerAccommodation: number;
+  maxImageBytes: number;
+  maxVideoBytes: number;
+};
+
+export const DEFAULT_MEDIA_LIMITS: MediaLimits = {
+  photosPerRoom: 10,
+  videosPerRoom: 2,
+  photosPerAccommodation: 20,
+  maxImageBytes: 5 * 1024 * 1024, // 5MB
+  maxVideoBytes: 50 * 1024 * 1024, // 50MB
+};
+
 export type AccommodationGlobalConfig = {
   globalPricing?: PricingConfig;
   semesterEndDate?: string;
+  mediaLimits?: MediaLimits;
 };
 
 // Booking types
@@ -148,29 +165,11 @@ export type Accommodation = {
   payout_verified?: boolean;
 };
 
-export type SubscriptionStatus = {
-  plan: "starter" | "free" | "pro" | "standard";
-  planExpiry: Date | string | null;
-  planStatus: "pending" | "active" | "expired" | "canceled";
-};
-
 export type SemesterInfo = {
   name: string;
   startDate: Date | string;
   endDate: Date | string;
 };
-
-export type AccountLimits = {
-  roomsLimit: number;
-  guestsLimit: number;
-  bookingsLimit: number;
-};
-
-export enum Plans {
-  BASE = "starter",
-  PRO = "pro",
-  STANDARD = "standard",
-}
 
 export const KNOWN_INSTITUTIONS = [
   "KNUST",

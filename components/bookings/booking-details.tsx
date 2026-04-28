@@ -212,7 +212,7 @@ export default function BookingDetailsView({
         </div>
 
         {/* Payment */}
-        <div className="space-y-4 pb-4 border-b">
+        <div className="space-y-4 pb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm text-muted-foreground font-semibold">
               <CreditCard className="h-4 w-4" />
@@ -229,15 +229,15 @@ export default function BookingDetailsView({
           </div>
 
           <div className="space-y-2.5">
-            <div className="flex justify-between text-sm">
+            {/* <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Total Billed</span>
               <span className="font-medium">
                 {accommodationData?.currency || "GHS"}{" "}
                 {(booking.totalPrice || 0).toFixed(2)}
               </span>
-            </div>
+            </div> */}
 
-            {(booking.commission ?? 0) > 0 && (
+            {/* {(booking.commission ?? 0) > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">
                   Platform Fee
@@ -252,9 +252,9 @@ export default function BookingDetailsView({
                   {(booking.commission || 0).toFixed(2)}
                 </span>
               </div>
-            )}
+            )} */}
 
-            <div className="pt-3 mt-1 border-t flex justify-between items-center">
+            <div className="flex justify-between items-center">
               <div>
                 <div className="text-sm font-bold">Net Total</div>
                 <Badge
@@ -265,9 +265,8 @@ export default function BookingDetailsView({
               </div>
               <div className="text-2xl font-bold text-primary">
                 {accommodationData?.currency || "GHS"}{" "}
-                {(
-                  (booking.totalPrice || 0) - (booking.commission || 0)
-                ).toFixed(2)}
+                {(booking.totalPrice || 0) /* - (booking.commission || 0) */
+                  .toFixed(2)}
               </div>
             </div>
           </div>

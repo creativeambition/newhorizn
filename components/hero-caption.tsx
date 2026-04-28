@@ -2,13 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const ROTATING_WORDS = [
-  "Hostel",
-  "Apartment",
-  "Guest House",
-  "Studio",
-  "Lodge",
-];
+const ROTATING_WORDS = ["Hostel", "Apartment", "Guest House", "Hotel", "Lodge"];
 
 const ROTATE_INTERVAL_MS = 2800;
 
@@ -43,35 +37,40 @@ export function HeroCaption() {
     return () => clearInterval(id);
   }, []);
 
+  const currentWord = ROTATING_WORDS[index];
+
   return (
     <>
-      <h1 className="text-5xl text-transparent font-bold tracking-tighter sm:text-4xl md:text-6xl lg:text-7xl bg-linear-to-b from-foreground to-foreground/70 bg-clip-text max-w-6xl animate-fade-in pb-1 md:pb-2">
-        Efficient <br className="flex lg:hidden" />
+      {/* Screen-reader-friendly label — crawlers read this, not the animated spans */}
+      <h1
+        className="text-5xl text-transparent font-bold tracking-tighter sm:text-4xl md:text-6xl lg:text-7xl bg-linear-to-b from-foreground to-foreground/70 bg-clip-text max-w-6xl animate-fade-in pb-1 md:pb-2"
+        aria-label={`Effortless ${currentWord} Management`}
+      >
+        Effortless <br className="flex lg:hidden" />
         <span
-          className="text-foreground inline-flex px-8 align-baseline rounded-full min-h-[1.5em] items-center justify-center overflow-hidden border-2 border-border"
+          className="text-foreground inline-flex px-5 align-baseline rounded-full min-h-[1.5em] items-center justify-center overflow-hidden border-2 border-border"
           style={{
-            width: containerWidth ? `${containerWidth + 64}px` : "auto",
+            width: containerWidth ? `${containerWidth + 45}px` : "fit-content",
             transition: "width 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
-          aria-hidden
+          aria-hidden="true"
         >
-          {/* Hidden measurer: renders the current word invisibly to get its natural width */}
+          {/* Hidden measurer: invisible span used only for width calculation */}
           <span
             ref={measureRef}
             className="absolute invisible whitespace-nowrap py-3"
-            aria-hidden="true"
           >
-            {ROTATING_WORDS[index]}
+            {currentWord}
           </span>
           <span
             key={index}
             className="inline-block animate-word-rotate-in text-gradient py-3 text-center whitespace-nowrap"
           >
-            {ROTATING_WORDS[index]}
+            {currentWord}
           </span>
-        </span>
+        </span>{" "}
         <br />
-        Booking Experience
+        Management
       </h1>
     </>
   );

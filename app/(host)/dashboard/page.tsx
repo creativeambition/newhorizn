@@ -99,6 +99,7 @@ export default function Dashboard() {
   );
 
   const dismissCommissionAlert = () => {
+    // Keep to maintain local storage logic backward compatibility
     localStorage.setItem("commission-alert-dismissed", "1");
     setHideCommissionAlert(true);
   };
@@ -107,8 +108,6 @@ export default function Dashboard() {
     () => bookings.filter((b) => b.status !== "pending").length,
     [bookings],
   );
-  const commissionLimitReached =
-    appConfig != null && acceptedBookingsCount >= appConfig.freeBookings;
 
   const totalBeds = useMemo(
     () => rooms.reduce((acc, room) => acc + room.capacity, 0),
@@ -386,11 +385,6 @@ export default function Dashboard() {
           <CardContent>
             <div className="text-2xl font-bold flex items-center gap-2">
               {acceptedBookingsCount}
-              {appConfig && acceptedBookingsCount < appConfig.freeBookings && (
-                <span className="text-xs font-medium bg-primary/10 text-primary px-2.5 py-1 rounded-full whitespace-nowrap">
-                  {acceptedBookingsCount} / {appConfig.freeBookings} Free
-                </span>
-              )}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               {bookingGrowth > 0
@@ -721,33 +715,7 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {commissionLimitReached && !hideCommissionAlert && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 md:left-auto md:right-4 md:translate-x-0 z-50 w-[calc(100%-2rem)] max-w-sm rounded-lg border bg-background p-4 shadow-lg flex flex-col gap-3 animate-in slide-in-from-bottom-5">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2 h-6 w-6 rounded-full opacity-70 hover:opacity-100"
-            onClick={dismissCommissionAlert}
-          >
-            <X className="h-4 w-4 text-muted-foreground" />
-          </Button>
-          <div className="flex gap-3">
-            <div className="text-yellow-500 shrink-0">
-              <MessageSquareWarning className="h-5 w-5" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <h3 className="font-medium text-sm">
-                Free booking limit reached
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                You've used all {appConfig!.freeBookings} free bookings. A{" "}
-                {appConfig!.commissionRate * 100}% platform fee now applies to
-                each new booking.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {accommodationData &&
         accommodationData.isVerified !== true &&

@@ -1,5 +1,8 @@
 "use client";
+import { RealtimeChannel, User } from "@supabase/supabase-js";
+import { usePathname, useRouter } from "next/navigation";
 import {
+  createContext,
   Dispatch,
   ReactNode,
   SetStateAction,
@@ -9,13 +12,9 @@ import {
   useMemo,
   useRef,
   useState,
-  createContext,
 } from "react";
-import { createClient, supabase } from "../supabase/client";
-import { User, RealtimeChannel } from "@supabase/supabase-js";
-import { useRouter, usePathname } from "next/navigation";
+import { supabase } from "../supabase/client";
 import { Accommodation } from "../types";
-import { checkSubscriptionStatus } from "../subscription/subscription";
 
 type AuthContext = {
   user: User | null;
@@ -54,32 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const unsubscribeRef = useRef<RealtimeChannel | null>(null);
   const fetchingProfileRef = useRef(false);
 
-  // const checkAccess = useCallback(() => {
-  //   if (!pathname) return true;
-
-  //   if (!accommodationData) return true;
-
-  //   // Always allow access to these paths
-  //   if (allowedPaths.includes(pathname)) return true;
-
-  //   // Handle pro plan with pending payment
-  //   if (
-  //     accommodationData.plan === "pro" &&
-  //     accommodationData.planStatus === "pending"
-  //   ) {
-  //     const targetPath =
-  //       accommodationData.planExpiry === null ? "/subscription" : "/checkout";
-
-  //     if (pathname !== targetPath) {
-  //       navigationRef.current = targetPath;
-  //       router.replace(targetPath);
-  //       return false;
-  //     }
-  //   }
-
-  //   return true;
-  // }, [accommodationData, pathname, router]);
-
   const navigationRef = useRef<string | null>(null);
 
   const setupRealtimeListener = useCallback(
@@ -100,7 +73,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           },
           (payload: any) => {
             const data = payload.new;
-            const subscription = checkSubscriptionStatus(data);
 
             const updatedAccommodationData: Omit<Accommodation, "owner_id"> = {
               id: data.id,
@@ -161,16 +133,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setupRealtimeListener(data.id);
 
-      const subscription = checkSubscriptionStatus(data);
-
-      // Update subscription status if expired
-      if (subscription?.planStatus === "expired") {
-        await supabase
-          .from("accommodations")
-          .update({ planStatus: "expired" })
-          .eq("id", data.id);
-      }
-
       const accommodationData: Omit<Accommodation, "owner_id"> = {
         id: data.id,
         accommodationName: data.accommodationName,
@@ -188,22 +150,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         payout_number: data.payout_number,
         paystack_subaccount_code: data.paystack_subaccount_code,
       };
-
-      // Handle expired subscription routing
-      if (
-        subscription?.planStatus === "expired" &&
-        !allowedPaths.includes(pathname)
-      ) {
-        router.push("/plans");
-      }
-
-      if (
-        subscription?.plan === "pro" &&
-        subscription?.planStatus === "pending" &&
-        subscription?.planExpiry === null
-      ) {
-        router.push("/subscription");
-      }
 
       return accommodationData;
     } catch (error) {

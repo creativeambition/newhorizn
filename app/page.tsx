@@ -21,77 +21,51 @@ import {
   SparklesIcon,
   TrendingUp,
   UserCheckIcon,
-  UserIcon,
   Users,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-
-const features = [
-  {
-    icon: <BedIcon className="h-6 w-6" />,
-    title: "Room Management",
-    description:
-      "Manage all rooms, beds, and capacity across your entire property from a single dashboard.",
-    stat: "50+",
-    statLabel: "Rooms tracked",
-  },
-  {
-    icon: <CalendarIcon className="h-6 w-6" />,
-    title: "Booking Engine",
-    description:
-      "Real-time availability, instant booking confirmations, and automated check-in/check-out workflows.",
-    stat: "24/7",
-    statLabel: "Availability",
-  },
-  {
-    icon: <CreditCardIcon className="h-6 w-6" />,
-    title: "Payment Processing",
-    description:
-      "Secure payment handling with deposit tracking, invoicing, and automated receipts.",
-    stat: "100%",
-    statLabel: "Secure",
-  },
-  {
-    icon: <UserIcon className="h-6 w-6" />,
-    title: "Guest Profiles",
-    description:
-      "Build comprehensive guest records with preferences, history, and contact details.",
-    stat: "10k+",
-    statLabel: "Guests managed",
-  },
-];
-
-const steps = [
-  {
-    number: "01",
-    title: "Register",
-    description: "Sign up and add your accommodation details.",
-    icon: <UserCheckIcon className="h-7 w-7" />,
-  },
-  {
-    number: "02",
-    title: "Configure",
-    description: "Set up your rooms & pricing on your dashboard.",
-    icon: <Settings className="h-7 w-7" />,
-  },
-  {
-    number: "03",
-    title: "Manage",
-    description:
-      "Start taking bookings, managing guests, and tracking your performance.",
-    icon: <BarChart3 className="h-7 w-7" />,
-  },
-];
-
-import { Metadata } from "next";
 import { HelpFab } from "@/components/support/help-fab";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  title: "NewHorizn – Hostel and Property Management Software",
+  description:
+    "NewHorizn is a cloud-native property management system for hostels, hotels, and student housing. Manage bookings, check-ins, and payments in one simple dashboard. Try for free.",
+  keywords: [
+    "hostel management software",
+    "property management system",
+    "student accommodation software",
+    "student housing management",
+    "short-term rental software",
+    "hostel booking engine",
+    "bed space management",
+  ],
 };
+
+const steps = [
+  {
+    number: "01",
+    title: "Register",
+    description: "Create your account and enter your property details.",
+    icon: <UserCheckIcon className="h-7 w-7" />,
+  },
+  {
+    number: "02",
+    title: "Configure",
+    description: "Add your rooms and pricing in the dashboard.",
+    icon: <Settings className="h-7 w-7" />,
+  },
+  {
+    number: "03",
+    title: "Manage",
+    description: "Start taking bookings and tracking occupancy in real time.",
+    icon: <BarChart3 className="h-7 w-7" />,
+  },
+];
 
 export default async function Home() {
   const jsonLd = {
@@ -134,7 +108,7 @@ export default async function Home() {
                 {
                   icon: <SparklesIcon className="h-5 w-5" />,
                   title: "Dashboard",
-                  text: "Rooms, guests, and occupancy at a glance.",
+                  text: "Rooms, guests, and availability at a glance.",
                 },
                 {
                   icon: <ChartLineIcon className="h-5 w-5" />,
@@ -170,13 +144,13 @@ export default async function Home() {
 
         {/* CTA Buttons */}
         <div className="relative flex flex-col sm:flex-row gap-4 animate-fade-in-up md:mt-12">
-          <Link href="/auth/login">
+          <Link href="/auth/register">
             <Button
               size="lg"
               className="w-full sm:w-auto bg-primary hover:bg-primary/90 gap-2 h-12 px-8 rounded-xl shadow-lg hover:shadow-primary/20 transition-all duration-300"
             >
               <UserCheckIcon className="h-5 w-5" />
-              Become a host
+              Start for Free
             </Button>
           </Link>
           <Link href="/accommodations">
@@ -186,7 +160,7 @@ export default async function Home() {
               className="w-full sm:w-auto gap-2 h-12 px-8 rounded-xl glass hover:bg-primary/5 transition-all duration-300"
             >
               <Search className="h-5 w-5" />
-              Explore listings
+              Explore Listings
             </Button>
           </Link>
         </div>
@@ -215,9 +189,9 @@ export default async function Home() {
             <div className="p-2 rounded-lg bg-primary/5 group-hover:bg-primary/10 transition-colors">
               <TrendingUp className="size-5 text-primary" />
             </div>
-            <p className="text-sm font-black tracking-tight">Zero Setup</p>
+            <p className="text-sm font-black tracking-tight">2-Min Setup</p>
             <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
-              Start in minutes
+              No training needed
             </p>
           </div>
           <div className="flex flex-col items-center text-center space-y-2 group">
@@ -252,9 +226,9 @@ export default async function Home() {
               </h2>
             </div>
             <p className="text-muted-foreground text-base md:text-lg max-w-md leading-relaxed lg:text-right">
-              Designed for owners and managers of hotels, hostels, premium
-              apartments, and guest houses who value simplicity and efficiency
-              above all else.
+              Built for hotel, hostel, and apartment owners who want a simpler
+              way to run their property — from bookings to payments, all in one
+              place.
             </p>
           </div>
 
@@ -527,10 +501,36 @@ export default async function Home() {
                 size="lg"
                 className="h-13 px-10 rounded-xl bg-foreground text-background hover:bg-foreground/90 font-bold gap-2 shadow-xl transition-all duration-300"
               >
-                Get started now
+                Create Your Free Account
                 <ArrowRight className="size-4" />
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Trust Signal Strip ─── */}
+      <section className="border-y border-border bg-muted/20 py-12 md:py-16 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+            {[
+              { value: "1,200+", label: "Bookings Processed" },
+              { value: "60+", label: "Hosts Onboarded" },
+              { value: "2 min", label: "Average Setup Time" },
+              { value: "99.9%", label: "Platform Uptime" },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                className="flex flex-col items-center text-center gap-1.5 group"
+              >
+                <p className="text-2xl md:text-3xl font-black tracking-tight tabular-nums text-foreground">
+                  {stat.value}
+                </p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -559,8 +559,9 @@ export default async function Home() {
           </h2>
 
           <p className="text-background/50 text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
-            Join accommodation providers who have simplified their operations
-            with newhorizn. Setup takes less than 2 minutes.
+            Join the accommodation providers using newhorizn to manage bookings,
+            delight guests, and grow their properties — all in under 2 minutes
+            of setup.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -570,7 +571,7 @@ export default async function Home() {
               asChild
             >
               <Link href="/auth/register" className="gap-2">
-                Get Started Free
+                Create Your Free Account
                 <ArrowRight className="size-4" />
               </Link>
             </Button>
@@ -588,10 +589,9 @@ export default async function Home() {
                 <span className="text-muted-foreground/50">modern host</span>
               </h2>
               <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-lg">
-                Discover how our apartment rental software and hostel property
-                management solutions empower owners to reduce overhead, maximize
-                revenue, and deliver a superior guest experience without the
-                steep learning curve of legacy systems.
+                See how our hostel and student housing management platform helps
+                owners reduce overhead, grow revenue, and deliver a better guest
+                experience — without the complexity of legacy systems.
               </p>
             </div>
 
@@ -654,8 +654,9 @@ export default async function Home() {
               </div>
 
               <p className="text-muted-foreground text-base leading-relaxed max-w-sm">
-                The all-in-one property management system for the modern host.
-                Simple, secure, and built to scale with your property's needs.
+                The all-in-one property management system for hostels, student
+                housing, and short-term rentals. Simple, secure, and built to
+                scale.
               </p>
 
               <div className="flex items-center gap-4 pt-2">

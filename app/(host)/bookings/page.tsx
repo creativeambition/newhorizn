@@ -99,10 +99,9 @@ function BookingsPageContent() {
     setHideCommissionAlert(true);
   };
 
-  const totalAcceptedCount = bookings.filter((b) => b.status !== "pending").length;
-
-  const commissionLimitReached =
-    appConfig != null && totalAcceptedCount >= appConfig.freeBookings;
+  const totalAcceptedCount = bookings.filter(
+    (b) => b.status !== "pending",
+  ).length;
 
   const searchParams = useSearchParams();
 
@@ -143,20 +142,20 @@ function BookingsPageContent() {
   };
 
   const handleAcceptBooking = (booking: BookingDetails) => {
-    if (!accommodationData?.paystack_subaccount_code) {
-      toast({
-        title: "Payout Setup Required",
-        description:
-          "Please link your Mobile Money account in Settings before accepting bookings.",
-        variant: "destructive",
-        action: (
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/settings#payout">Settings</Link>
-          </Button>
-        ),
-      });
-      return;
-    }
+    // if (!accommodationData?.paystack_subaccount_code) {
+    //   toast({
+    //     title: "Payout Setup Required",
+    //     description:
+    //       "Please link your Mobile Money account in Settings before accepting bookings.",
+    //     variant: "destructive",
+    //     action: (
+    //       <Button variant="outline" size="sm" asChild>
+    //         <Link href="/settings#payout">Settings</Link>
+    //       </Button>
+    //     ),
+    //   });
+    //   return;
+    // }
 
     // if (!accommodationData?.payout_verified) {
     //   toast({
@@ -483,12 +482,6 @@ function BookingsPageContent() {
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                   Bookings
                 </h1>
-                {appConfig &&
-                  totalAcceptedCount < appConfig.freeBookings && (
-                    <span className="text-xs font-medium bg-primary/10 text-primary px-2.5 py-1 rounded-full whitespace-nowrap">
-                      {totalAcceptedCount} / {appConfig.freeBookings} Free
-                    </span>
-                  )}
               </div>
               <p className="text-muted-foreground mt-1">
                 Manage all accommodation reservations
@@ -569,33 +562,6 @@ function BookingsPageContent() {
               </Dialog>
             </div>
           </div>
-
-          {/* Commission limit alert */}
-          {commissionLimitReached && !hideCommissionAlert && (
-            <div className="relative bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md dark:bg-yellow-900/20 dark:border-yellow-600">
-              <div className="flex items-start">
-                <AlertCircle className="min-h-5 min-w-5 text-yellow-400 dark:text-yellow-500 mt-0.5 mr-3" />
-                <div>
-                  <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                    Free booking limit reached
-                  </h3>
-                  <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
-                    You've used all {appConfig!.freeBookings} free bookings. A{" "}
-                    {appConfig!.commissionRate * 100}% platform fee now applies
-                    to each new booking.
-                  </p>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-2 right-2 h-7 w-7"
-                  onClick={dismissCommissionAlert}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          )}
 
           {/* Pending Payments Warning */}
           {showPendingWarning && pendingPaymentsCount > 0 && (

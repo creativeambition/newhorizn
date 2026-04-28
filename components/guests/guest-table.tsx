@@ -52,7 +52,7 @@ const GuestTable = ({
                 <TableHead>Phone</TableHead>
                 <TableHead>Address</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead className="text-end">Actions</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -71,10 +71,11 @@ const GuestTable = ({
                     <TableCell>
                       {guest.status ? (
                         <span
-                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${guest.status === "active"
-                            ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400"
-                            : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400"
-                            }`}
+                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                            guest.status === "active"
+                              ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400"
+                              : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400"
+                          }`}
                         >
                           {guest.status === "active"
                             ? "Active Guest"
@@ -84,7 +85,7 @@ const GuestTable = ({
                         <span className="text-sm text-muted-foreground">-</span>
                       )}
                     </TableCell>
-                    <TableCell className="sticky right-0 bg-linear-to-r from-transparent to-background">
+                    <TableCell className="sticky text-end right-0 bg-linear-to-r from-transparent to-background">
                       <Button
                         variant="ghost"
                         size="sm"

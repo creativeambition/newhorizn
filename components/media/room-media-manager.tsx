@@ -14,10 +14,18 @@ import {
   AlertCircle,
   Zap,
 } from "lucide-react";
-import { Room } from "@/lib/types";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Room, DEFAULT_MEDIA_LIMITS } from "@/lib/types";
 import { useAuth } from "@/lib/context/auth-context";
-import { useSubscription } from "@/lib/context/subscription-context";
-import { getMediaLimitsForPlan } from "@/lib/subscription/subscription";
 import Link from "next/link";
 import { Label } from "../ui/label";
 import { createClient } from "@/lib/supabase/client";
@@ -62,10 +70,10 @@ export default function RoomMediaManager({
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [fileError, setFileError] = useState<string | null>(null);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
 
-  const { user } = useAuth();
-  const { subscriptionStatus } = useSubscription();
-  const limits = getMediaLimitsForPlan(subscriptionStatus?.plan);
+  const { user, accommodationData } = useAuth();
+  const limits = accommodationData?.globalConfig?.mediaLimits || DEFAULT_MEDIA_LIMITS;
 
   const imageCount = items.filter((i) => i.mediaType !== "video").length;
   const videoCount = items.filter((i) => i.mediaType === "video").length;
@@ -97,9 +105,7 @@ export default function RoomMediaManager({
     }
 
     if (isVideo && limits.videosPerRoom === 0) {
-      setFileError(
-        "Video uploads are not available on your current plan. Upgrade to Standard or Pro.",
-      );
+      setFileError("Video uploads are not permitted.");
       return;
     }
 
@@ -107,14 +113,14 @@ export default function RoomMediaManager({
       setFileError(
         isUnlimited(limits.photosPerRoom)
           ? "Image limit reached."
-          : `You've reached the ${limits.photosPerRoom}-photo limit for your plan.`,
+          : `You've reached the ${limits.photosPerRoom}-photo limit.`,
       );
       return;
     }
 
     if (isVideo && videosFull) {
       setFileError(
-        `You've reached the ${limits.videosPerRoom}-video limit for your plan.`,
+        `You've reached the ${limits.videosPerRoom}-video limit.`,
       );
       return;
     }
@@ -122,7 +128,7 @@ export default function RoomMediaManager({
     const maxBytes = isImage ? limits.maxImageBytes : limits.maxVideoBytes;
     if (chosen.size > maxBytes) {
       setFileError(
-        `File too large. ${isImage ? "Images" : "Videos"} must be under ${formatBytes(maxBytes)} on your plan.`,
+        `File too large. ${isImage ? "Images" : "Videos"} must be under ${formatBytes(maxBytes)}.`,
       );
       return;
     }
@@ -373,17 +379,8 @@ export default function RoomMediaManager({
                     ? ` · ${videoCount} video${videoCount !== 1 ? "s" : ""}`
                     : ` · ${videoCount} / ${limits.videosPerRoom} video${limits.videosPerRoom !== 1 ? "s" : ""}`)}
                 {limits.videosPerRoom === 0 &&
-                  " · Videos not available on your plan"}
+                  " · Videos not permitted"}
               </span>
-              {(imagesFull || limits.videosPerRoom === 0) && (
-                <Link
-                  href={"/plans"}
-                  className="flex items-center gap-1 text-amber-500 font-medium py-2"
-                >
-                  <Zap className="h-3 w-3" />
-                  Upgrade for more
-                </Link>
-              )}
             </div>
 
             <Button
@@ -427,7 +424,7 @@ export default function RoomMediaManager({
             {/* Delete button */}
             <button
               className="absolute top-2.5 right-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/80 hover:bg-red-500 hover:text-white transition-all duration-200 backdrop-blur-sm"
-              onClick={() => handleRemove(idx)}
+              onClick={() => setDeleteIndex(idx)}
             >
               <Trash className="h-3.5 w-3.5" />
             </button>
@@ -460,6 +457,35 @@ export default function RoomMediaManager({
           </div>
         ))}
       </div>
+
+      <AlertDialog
+        open={deleteIndex !== null}
+        onOpenChange={(open) => !open && setDeleteIndex(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete this media from storage and remove it
+              from this room. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (deleteIndex !== null) {
+                  handleRemove(deleteIndex);
+                  setDeleteIndex(null);
+                }
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

@@ -5,7 +5,7 @@ export const LISTING_TYPES = [
   "apartment",
   "hotel",
   "guesthouse",
-  "studio",
+  "hotel",
   "other",
 ] as const;
 

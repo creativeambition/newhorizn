@@ -2,8 +2,10 @@
 
 import { ArrowLeft, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useExplorePage } from "@/lib/context/explore-page-context";
@@ -44,6 +46,7 @@ export const ExploreHeader = ({
   const pathname = usePathname();
   const { activeListing, customRightContent } = useExplorePage();
   const [hasBookings, setHasBookings] = useState(false);
+  const searchParams = useSearchParams();
 
   // Determine back button visibility based on route depth if not explicitly provided
   const isRootExplore = pathname === "/accommodations";
@@ -134,6 +137,16 @@ export const ExploreHeader = ({
     }
   };
 
+  const handleSearchChange = (val: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (val) {
+      params.set("search", val);
+    } else {
+      params.delete("search");
+    }
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
       <div className={containerClassName}>
@@ -215,6 +228,20 @@ export const ExploreHeader = ({
               ) : null}
             </div>
           </div>
+
+          {isRootExplore && (
+            <div className="hidden sm:flex flex-1 justify-center px-4 max-w-lg mx-auto w-full">
+              <div className="relative w-full">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by name, location, or institution.."
+                  value={searchParams.get("search") || ""}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  className="pl-11 h-10 w-full rounded-full bg-muted/50 border-transparent focus-visible:bg-background focus-visible:ring-2 focus-visible:border-border transition-all"
+                />
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">

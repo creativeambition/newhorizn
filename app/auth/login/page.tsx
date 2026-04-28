@@ -36,7 +36,7 @@ import { Logo } from "@/components/ui/logo";
 type FormData = z.infer<typeof loginSchema>;
 
 const LOGIN_BG_IMAGE =
-  "https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  "https://images.unsplash.com/photo-1611564053018-210a4cbd7f86?q=80&w=952&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
 function LoginForm() {
   const router = useRouter();
@@ -151,7 +151,7 @@ function LoginForm() {
                     Welcome back
                   </CardTitle>
                   <CardDescription className="text-sm">
-                    Sign in to your account to continue
+                    Sign in to your newhorizn account
                   </CardDescription>
                 </CardHeader>
 
@@ -189,7 +189,7 @@ function LoginForm() {
                             href="/auth/forgot-password"
                             className="text-xs text-primary hover:underline font-medium"
                           >
-                            Forgot?
+                            Forgot password?
                           </Link>
                         </div>
                         <FormControl>
@@ -231,7 +231,7 @@ function LoginForm() {
                         Signing in…
                       </>
                     ) : (
-                      "Sign in with email"
+                      "Sign In"
                     )}
                   </Button>
 
@@ -268,12 +268,12 @@ function LoginForm() {
                   </Button>
 
                   <p className="text-sm text-center text-muted-foreground">
-                    Don’t have an account?{" "}
+                    New to newhorizn?{" "}
                     <Link
                       href="/auth/register"
                       className="text-primary font-medium hover:underline"
                     >
-                      Create account
+                      Create your free account
                     </Link>
                   </p>
                 </CardFooter>

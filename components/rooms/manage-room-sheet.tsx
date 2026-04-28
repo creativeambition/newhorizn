@@ -69,7 +69,7 @@ export function ManageRoomSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-xl flex flex-col p-0">
+      <SheetContent className="w-full sm:max-w-xl flex flex-col p-0 overflow-y-auto">
         {/* Sticky Header */}
         <div className="border-b bg-background sticky top-0 z-10">
           <SheetHeader className="px-6 pt-6 pb-5 max-sm:text-left">
@@ -78,16 +78,6 @@ export function ManageRoomSheet({
                 <SheetTitle className="text-xl font-semibold">
                   {room.name}
                 </SheetTitle>
-                <div className="space-y-2">
-                  <Textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    onBlur={handleDescriptionUpdate}
-                    placeholder="Add a description for this room..."
-                    className="min-h-5 resize-none"
-                    disabled={isUpdatingDescription}
-                  />
-                </div>
               </div>
               <SheetClose asChild>
                 <Button
@@ -127,13 +117,20 @@ export function ManageRoomSheet({
         </div>
 
         {/* Scrollable Content */}
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="flex-1 overflow-y-auto"
-        >
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
           {/* Media */}
           <TabsContent value="media" className="px-6 pb-6 mt-0">
+            <div className="mb-2">
+              <Textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                onBlur={handleDescriptionUpdate}
+                placeholder="Add a description for this room..."
+                className="min-h-5 resize-none"
+                disabled={isUpdatingDescription}
+              />
+            </div>
+
             <RoomMediaManager
               key={room.id}
               room={room}
@@ -155,7 +152,7 @@ export function ManageRoomSheet({
         </Tabs>
 
         {/* Sticky Danger Zone */}
-        <div className="border-t bg-background px-6 py-5 sticky bottom-0">
+        <div className="border-t bg-background px-6 py-5">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-destructive flex items-center gap-1.5">

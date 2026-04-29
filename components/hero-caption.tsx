@@ -46,7 +46,8 @@ export function HeroCaption() {
         className="text-5xl text-transparent font-bold tracking-tighter sm:text-4xl md:text-6xl lg:text-7xl bg-linear-to-b from-foreground to-foreground/70 bg-clip-text max-w-6xl animate-fade-in pb-1 md:pb-2"
         aria-label={`Effortless ${currentWord} Management`}
       >
-        Effortless <br className="flex lg:hidden" />
+        <span className="font-serif italic" aria-hidden="true">Effortless</span>
+        <br className="flex lg:hidden" />
         <span
           className="text-foreground inline-flex px-5 align-baseline rounded-full min-h-[1.5em] items-center justify-center overflow-hidden border-2 border-border"
           style={{
@@ -59,6 +60,8 @@ export function HeroCaption() {
           <span
             ref={measureRef}
             className="absolute invisible whitespace-nowrap py-3"
+            style={{ visibility: "hidden" }}
+            aria-hidden="true"
           >
             {currentWord}
           </span>
@@ -70,7 +73,7 @@ export function HeroCaption() {
           </span>
         </span>{" "}
         <br />
-        Management
+        <span aria-hidden="true">Management</span>
       </h1>
     </>
   );

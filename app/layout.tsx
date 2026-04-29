@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import { DotPatternBg } from "@/components/dot-pattern-bg";
 import { QueryProvider } from "@/components/query-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -7,12 +7,16 @@ import { AppProvider } from "@/lib/context/app-context";
 import { AuthProvider } from "@/lib/context/auth-context";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Instrument_Serif, Inter } from "next/font/google";
 import { headers } from "next/headers";
 import type React from "react";
-import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], fallback: ["Poppins, sans-serif"] });
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
+});
 
 const sharedTitle =
   "newhorizn – calm for guests. control for hosts | accommodation rentals & more";
@@ -122,6 +126,7 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <DotPatternBg />
         <QueryProvider>
           <ThemeProvider>
             <AuthProvider>

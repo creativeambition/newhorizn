@@ -3,13 +3,18 @@ import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Menu, Settings, User, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/context/auth-context";
 import { Logo } from "./ui/logo";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, accommodationData, loading } = useAuth();
+
+  useEffect(() => {
+    document.body.classList.toggle("overflow-hidden", menuOpen);
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [menuOpen]);
 
   const closeMenu = () => {
     setTimeout(() => {
@@ -65,7 +70,7 @@ function Header() {
       <Link href="/auth/onboarding">
         <Button variant={"ghost"}>
           Complete Profile
-          <Settings className="h-4 w-4 ml-1" />
+          <User className="h-4 w-4 ml-1" />
         </Button>
       </Link>
     );

@@ -80,14 +80,13 @@ export function ContactForm() {
         {/* Left Column - Contact Information */}
         <div className="space-y-10 lg:sticky lg:top-24">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">
-              Contact
-            </p>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-[0.95] mb-4">
-              Let&apos;s discuss your
+              <span className="font-serif italic">
+                Let&apos;s discuss your{" "}
+              </span>
               <br />
-              <span className="text-muted-foreground/50">
-                accommodation&apos;s needs
+              <span className="text-muted-foreground/80">
+                property&apos;s needs
               </span>
             </h2>
             <p className="text-muted-foreground text-[15px] leading-relaxed max-w-md">
@@ -107,7 +106,7 @@ export function ContactForm() {
               <div className="flex-1">
                 <h3 className="font-bold text-sm">Email Us</h3>
                 <p className="text-sm text-muted-foreground">
-                  chrysayita@gmail.com
+                  support@newhorizn.com
                 </p>
               </div>
               <ArrowRight className="size-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -132,7 +131,7 @@ export function ContactForm() {
         </div>
 
         {/* Right Column - Contact Form */}
-        <div className="w-full">
+        <div className="w-full hidden lg:block">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}

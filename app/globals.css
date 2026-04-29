@@ -171,6 +171,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --font-serif: "Instrument Serif", Georgia, serif;
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -208,7 +210,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -304,7 +305,6 @@
 
 @layer utilities {
   @keyframes ping {
-
     75%,
     100% {
       transform: scale(2);
@@ -379,7 +379,6 @@
   }
 
   @keyframes float {
-
     0%,
     100% {
       transform: translateY(0);
@@ -391,7 +390,6 @@
   }
 
   @keyframes subtle-pulse {
-
     0%,
     100% {
       transform: scale(1);
@@ -411,6 +409,23 @@
 
 @utility animate-subtle-pulse {
   animation: subtle-pulse 4s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 70s linear infinite;
+}
+
+@utility animate-marquee-slow {
+  animation: marquee 90s linear infinite;
 }
 
 @layer base {

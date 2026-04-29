@@ -192,7 +192,7 @@ export default function ConfirmEmailClient({ email }: ConfirmEmailClientProps) {
                   <button
                     onClick={handleResend}
                     disabled={resending || countdown > 0}
-                    className="flex items-center gap-1.5 text-primary font-bold hover:text-primary/80 disabled:text-muted-foreground/50 transition-colors"
+                    className="flex items-center gap-1.5 text-primary font-bold hover:text-primary/80 disabled:text-muted-foreground/80 transition-colors"
                   >
                     {resending ? (
                       <RefreshCw className="h-3 w-3 animate-spin" />

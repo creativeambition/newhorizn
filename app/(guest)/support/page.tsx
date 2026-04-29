@@ -92,11 +92,10 @@ export const metadata: Metadata = {
 
 export default function SupportPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <HelpFab />
       <main className="flex-1 relative overflow-hidden py-12">
         <div className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-20 pointer-events-none">
-          <div className="blur-[50px] h-56 bg-linear-to-br from-primary to-purple-400 dark:from-blue-700"></div>
           <div className="blur-[106px] h-32 bg-linear-to-r from-cyan-400 to-primary dark:to-indigo-600"></div>
         </div>
 
@@ -105,7 +104,7 @@ export default function SupportPage() {
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
               <span className="">How can we help?</span>
             </h1>
-            <p className="text-primary max-w-2xl mx-auto text-lg">
+            <p className="max-w-2xl mx-auto text-lg">
               Find answers to common questions or get in touch with our support
               team.
             </p>

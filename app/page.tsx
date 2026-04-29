@@ -1,21 +1,28 @@
 import { ContactForm } from "@/components/contact-form";
 import { HeroCaption } from "@/components/hero-caption";
 import Header from "@/components/landing-page-header";
+import { HelpFab } from "@/components/support/help-fab";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import {
   ArrowRight,
   BarChart3,
   BedIcon,
+  Building2,
   CalendarIcon,
   ChartBarIcon,
   ChartLineIcon,
   Check,
+  Clock,
+  Cloud,
   CreditCardIcon,
+  HelpCircle,
   Mail,
   Phone,
+  QuoteIcon,
   Search,
   Settings,
+  Shield,
   ShieldCheck,
   Sparkles,
   SparklesIcon,
@@ -24,9 +31,8 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import Link from "next/link";
-import { HelpFab } from "@/components/support/help-fab";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   alternates: {
@@ -91,12 +97,8 @@ export default async function Home() {
       />
       <Header />
       <HelpFab href="/support" />
-
       <section className="relative w-full flex flex-col items-center text-center gap-6 md:gap-8 py-12 md:py-12 2xl:py-24 px-4 md:px-6 overflow-hidden">
         <HeroCaption />
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl animate-fade-in-up delay-200">
-          Control for hosts. Calm for guests.
-        </p>
 
         <div className="relative max-w-5xl animate-fade-in-up w-full">
           <div className="glass rounded-3xl overflow-hidden border-2 border-border dark:border-white/40">
@@ -150,8 +152,8 @@ export default async function Home() {
               size="lg"
               className="w-full sm:w-auto bg-primary hover:bg-primary/90 gap-2 h-12 px-8 rounded-xl shadow-lg hover:shadow-primary/20 transition-all duration-300"
             >
-              <UserCheckIcon className="h-5 w-5" />
-              List property – Start free
+              <Building2 className="h-5 w-5" />
+              Manage your property
             </Button>
           </Link>
           <Link href="/accommodations">
@@ -161,7 +163,7 @@ export default async function Home() {
               className="w-full sm:w-auto gap-2 h-12 px-8 rounded-xl glass hover:bg-primary/5 transition-all duration-300"
             >
               <Search className="h-5 w-5" />
-              Find your stay – Browse rooms
+              Find an accommodation
             </Button>
           </Link>
         </div>
@@ -170,39 +172,39 @@ export default async function Home() {
         <div className="w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-12 border-t border-border animate-fade-in">
           <div className="flex flex-col items-center text-center space-y-2 group">
             <div className="p-2 rounded-lg bg-primary/5 group-hover:bg-primary/10 transition-colors">
-              <Sparkles className="size-5 text-primary" />
+              <Cloud className="size-5 text-primary" />
             </div>
-            <p className="text-sm font-black tracking-tight">Cloud Native</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
+            <p className="text-sm font-medium tracking-tight">Cloud Native</p>
+            {/* <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
               Always available
-            </p>
+            </p> */}
           </div>
           <div className="flex flex-col items-center text-center space-y-2 group">
             <div className="p-2 rounded-lg bg-primary/5 group-hover:bg-primary/10 transition-colors">
-              <Check className="size-5 text-primary" />
+              <Shield className="size-5 text-primary" />
             </div>
-            <p className="text-sm font-black tracking-tight">Secure Access</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
+            <p className="text-sm font-medium tracking-tight">Secure Access</p>
+            {/* <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
               Encrypted data
-            </p>
+            </p> */}
           </div>
           <div className="flex flex-col items-center text-center space-y-2 group">
             <div className="p-2 rounded-lg bg-primary/5 group-hover:bg-primary/10 transition-colors">
-              <TrendingUp className="size-5 text-primary" />
+              <Clock className="size-5 text-primary" />
             </div>
-            <p className="text-sm font-black tracking-tight">2-Min Setup</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
+            <p className="text-sm font-medium tracking-tight">2-Min Setup</p>
+            {/* <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
               No training needed
-            </p>
+            </p> */}
           </div>
           <div className="flex flex-col items-center text-center space-y-2 group">
             <div className="p-2 rounded-lg bg-primary/5 group-hover:bg-primary/10 transition-colors">
-              <Phone className="size-5 text-primary" />
+              <HelpCircle className="size-5 text-primary" />
             </div>
-            <p className="text-sm font-black tracking-tight">24/7 Support</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
+            <p className="text-sm font-medium tracking-tight">24/7 Support</p>
+            {/* <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
               Always here
-            </p>
+            </p> */}
           </div>
         </div>
       </section>
@@ -210,25 +212,22 @@ export default async function Home() {
       {/* ─── Features Section: Bento-style ─── */}
       <section
         id="features"
-        className="relative py-24 md:py-32 overflow-hidden"
+        className="relative py-12 md:py-16 overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16 md:mb-20">
             <div className="max-w-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">
-                Core Capabilities
-              </p>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.95]">
-                Everything you need
+                <span className="font-serif italic">Everything you need</span>
                 <br />
-                <span className="text-muted-foreground/50">
+                <span className="text-muted-foreground/80">
                   to run your property
                 </span>
               </h2>
             </div>
             <p className="text-muted-foreground text-base md:text-lg max-w-md leading-relaxed lg:text-right">
-              Property management, simplified. For hotels, hostels, and
-              apartments.
+              Property management, simplified. For hostels, apartments and
+              hotels.
             </p>
           </div>
 
@@ -236,7 +235,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-5">
             {/* Feature 1: Room Management — large card */}
             <div className="lg:col-span-7 group relative">
-              <div className="relative h-full p-8 md:p-10 rounded-2xl border border-border/60 bg-background hover:border-foreground/15 transition-all duration-500 overflow-hidden active:scale-[0.99]">
+              <div className="relative h-full p-4 md:p-10 rounded-2xl border border-border/60 bg-background hover:border-foreground/15 transition-all duration-500 overflow-hidden active:scale-[0.99]">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-foreground/2 rounded-full -translate-y-1/3 translate-x-1/3 group-hover:bg-foreground/4 transition-colors duration-500" />
 
                 <div className="relative flex flex-col h-full">
@@ -262,18 +261,18 @@ export default async function Home() {
                   {/* Mini dashboard mockup */}
                   <div className="mt-auto grid grid-cols-3 gap-3">
                     {[
-                      { label: "Total Rooms", value: "48", trend: "+4" },
+                      { label: "Total", value: "48", trend: "+4" },
                       { label: "Occupied", value: "39", trend: "81%" },
                       { label: "Available", value: "9", trend: "Online" },
                     ].map((stat, i) => (
                       <div
                         key={i}
-                        className="p-3 md:p-4 rounded-xl bg-muted/50 border border-border/40"
+                        className="p-3 md:p-4 rounded-xl bg-muted/50 border border-border/40 flex flex-col"
                       >
-                        <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-bold mb-1.5">
+                        <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium mb-1.5">
                           {stat.label}
                         </p>
-                        <p className="text-xl md:text-2xl font-black tracking-tight tabular-nums">
+                        <p className="text-xl md:text-2xl font-black tracking-tight tabular-nums my-auto">
                           {stat.value}
                         </p>
                         <p className="text-xs font-semibold text-muted-foreground mt-1">
@@ -288,7 +287,7 @@ export default async function Home() {
 
             {/* Feature 2: Booking Engine — tall card */}
             <div className="lg:col-span-5 group relative">
-              <div className="relative h-full p-8 md:p-10 rounded-2xl border border-border/60 bg-background hover:border-foreground/15 transition-all duration-500 overflow-hidden active:scale-[0.99]">
+              <div className="relative h-full p-4 md:p-10 rounded-2xl border border-border/60 bg-background hover:border-foreground/15 transition-all duration-500 overflow-hidden active:scale-[0.99]">
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-foreground/2 rounded-full translate-y-1/3 -translate-x-1/3 group-hover:bg-foreground/4 transition-colors duration-500" />
 
                 <div className="relative flex flex-col h-full">
@@ -351,7 +350,7 @@ export default async function Home() {
 
             {/* Feature 3: Payment Processing — wide bottom-left */}
             <div className="lg:col-span-5 group relative">
-              <div className="relative h-full p-8 md:p-10 rounded-2xl border border-border/60 bg-background hover:border-foreground/15 transition-all duration-500 overflow-hidden active:scale-[0.99]">
+              <div className="relative h-full p-4 md:p-10 rounded-2xl border border-border/60 bg-background hover:border-foreground/15 transition-all duration-500 overflow-hidden active:scale-[0.99]">
                 <div className="relative flex flex-col h-full">
                   <div className="size-12 flex items-center justify-center rounded-xl bg-foreground text-background mb-6">
                     <CreditCardIcon className="h-5 w-5" />
@@ -387,7 +386,7 @@ export default async function Home() {
 
             {/* Feature 4: Guest Profiles — wide bottom-right */}
             <div className="lg:col-span-7 group relative">
-              <div className="relative h-full p-8 md:p-10 rounded-2xl border border-border/60 bg-foreground text-background overflow-hidden hover:bg-foreground/95 active:scale-[0.99] transition-all duration-500">
+              <div className="relative h-full p-4 md:p-10 rounded-2xl border border-border/60 bg-foreground text-background overflow-hidden hover:bg-foreground/95 active:scale-[0.99] transition-all duration-500">
                 <div className="absolute top-0 right-0 w-72 h-72 bg-background/3 rounded-full -translate-y-1/2 translate-x-1/4" />
 
                 <div className="relative flex flex-col h-full">
@@ -435,27 +434,24 @@ export default async function Home() {
       {/* ─── How It Works Section ─── */}
       <section
         id="get-started"
-        className="relative py-24 md:py-32 overflow-hidden"
+        className="relative py-12 md:py-16 overflow-hidden"
       >
-        {/* Subtle pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--foreground)/0.02)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-2xl mb-16 md:mb-20">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            {/* <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">
               Getting Started
-            </p>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.95] mb-6">
-              Up and running
+            </p> */}
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.95] mb-2">
+              <span className="font-serif italic">Up and running</span>
               <br />
-              <span className="text-muted-foreground/50">in minutes</span>
+              <span className="text-muted-foreground/80">in minutes</span>
             </h2>
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
               2-minute setup. Focus on your guests.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-0 md:gap-0 relative">
+          <div className="grid md:grid-cols-3 gap-0 md:gap-0 relative lg:skew-5">
             {/* Horizontal connector line — desktop */}
             <div className="hidden md:block absolute top-15 left-[16.67%] right-[16.67%] h-px">
               <div className="w-full h-full bg-border" />
@@ -507,76 +503,93 @@ export default async function Home() {
       </section>
 
       {/* ─── Testimonials Section ─── */}
-      <section className="py-24 bg-background overflow-hidden">
+      <section className="py-20 md:py-32 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
-              Trusted by 60+ hosts
+              Trusted by <span className="font-serif italic">20+</span> hosts
             </h2>
             <p className="text-muted-foreground">
               See why property managers are switching to NewHorizn.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {[
-              {
-                quote:
-                  "Setting up our hostel took less than 5 minutes. The interface is clean, and my staff didn't even need training.",
-                author: "James A.",
-                role: "Hostel Manager",
-              },
-              {
-                quote:
-                  "Finally, a platform that doesn't feel like it was built in 1995. It's fast, reliable, and our guests love the booking flow.",
-                author: "Sarah K.",
-                role: "Apartment Owner",
-              },
-            ].map((t, i) => (
-              <div
-                key={i}
-                className="p-8 rounded-2xl bg-muted/30 border border-border/50 relative"
-              >
-                <div className="absolute top-6 left-6 text-primary/10">
-                  <Sparkles className="size-12" />
-                </div>
-                <p className="text-lg italic mb-6 relative z-10">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div>
-                  <p className="font-bold text-foreground">{t.author}</p>
-                  <p className="text-sm text-muted-foreground">{t.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
-      </section>
 
-      {/* ─── Trust Signal Strip ─── */}
-      <section className="border-y border-border bg-muted/20 py-12 md:py-16 overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-            {[
-              { value: "1,200+", label: "Bookings Processed" },
-              { value: "60+", label: "Hosts Onboarded" },
-              { value: "2 min", label: "Average Setup Time" },
-              { value: "99.9%", label: "Platform Uptime" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center text-center gap-1.5 group"
-              >
-                <p className="text-2xl md:text-3xl font-black tracking-tight tabular-nums text-foreground">
-                  {stat.value}
-                </p>
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                  {stat.label}
-                </p>
+        {(() => {
+          const testimonials = [
+            {
+              quote:
+                "Setting up our hostel took less than 5 minutes. The interface is clean, and my staff didn't even need training.",
+              author: "James A.",
+              role: "Hostel Manager",
+            },
+            {
+              quote:
+                "Finally, a platform that doesn't feel like it was built in 1995. It's fast, reliable, and our guests love the booking flow.",
+              author: "Sarah K.",
+              role: "Apartment Owner",
+            },
+            {
+              quote:
+                "We cut our check-in time in half. Guests appreciate the smooth experience and we love the real-time dashboard.",
+              author: "Kofi B.",
+              role: "Hotel Manager",
+            },
+            {
+              quote:
+                "The best investment we made for our student housing. Occupancy tracking alone saved us hours every week.",
+              author: "Ama D.",
+              role: "Student Housing Owner",
+            },
+            {
+              quote:
+                "Switching from spreadsheets to NewHorizn was seamless. The onboarding was incredibly straightforward.",
+              author: "Nana O.",
+              role: "Guesthouse Owner",
+            },
+            {
+              quote:
+                "Our guests keep complimenting the booking experience. It's professional and fast — exactly what we needed.",
+              author: "Efua M.",
+              role: "Apartment Manager",
+            },
+          ];
+          const row1 = [...testimonials, ...testimonials];
+          const row2 = [
+            ...testimonials.slice(3),
+            ...testimonials.slice(0, 3),
+            ...testimonials.slice(3),
+            ...testimonials.slice(0, 3),
+          ];
+          const Card = ({ t }: { t: (typeof testimonials)[0] }) => (
+            <div className="w-80 shrink-0 p-6 rounded-2xl bg-muted/30 border border-border/50 relative">
+              <div className="absolute top-4 left-4 text-primary/10">
+                <QuoteIcon className="size-10" />
               </div>
-            ))}
-          </div>
-        </div>
+              <p className="text-sm italic mb-4 relative z-10 leading-relaxed">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <div>
+                <p className="font-bold text-sm text-foreground">{t.author}</p>
+                <p className="text-xs text-muted-foreground">{t.role}</p>
+              </div>
+            </div>
+          );
+          return (
+            <div className="space-y-4 skew-5">
+              <div className="flex gap-4 w-max animate-marquee">
+                {row1.map((t, i) => (
+                  <Card key={i} t={t} />
+                ))}
+              </div>
+              <div className="flex gap-4 w-max animate-marquee-slow">
+                {row2.map((t, i) => (
+                  <Card key={i} t={t} />
+                ))}
+              </div>
+            </div>
+          );
+        })()}
       </section>
 
       {/* ─── Contact Section ─── */}
@@ -586,25 +599,20 @@ export default async function Home() {
 
       {/* ─── CTA Section ─── */}
       <section className="relative py-24 md:py-32 overflow-hidden bg-foreground text-background">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-background/10 to-transparent" />
-          <div className="absolute bottom-0 inset-x-0 h-px bg-linear-to-r from-transparent via-background/10 to-transparent" />
-        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,black,transparent_1px)] bg-size-[32px_32px] opacity-50" />
 
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-background/40 mb-8">
-            Start managing smarter today
-          </p>
-
+        <div className="relative max-w-5xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-8">
-            Start managing
+            <span className="">Start managing</span>
             <br />
-            <span className="text-background/30">smarter today</span>
+            <span className="text-background/50 font-serif italic">
+              smarter today
+            </span>
           </h2>
 
           <p className="text-background/50 text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
-            Join the hosts using newhorizn to manage bookings and delight
-            guests – all in under 2 minutes of setup.
+            Join the hosts using newhorizn to manage bookings and delight guests
+            – all in under 2 minutes of setup.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -628,8 +636,9 @@ export default async function Home() {
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-start">
             <div className="space-y-6">
               <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-none text-foreground">
-                Built for the <br />
-                <span className="text-muted-foreground/50">modern host</span>
+                <span className="font-serif italic">Built for the</span>
+                <br />
+                <span className="text-muted-foreground/80">modern host</span>
               </h2>
               <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-lg">
                 See how our hostel and student housing management platform helps
@@ -681,16 +690,14 @@ export default async function Home() {
       </section>
 
       {/* ─── Footer ─── */}
-      <footer className="bg-background py-24 md:py-32 border-t border-border relative overflow-hidden">
+      <footer className="py-12 md:py-16 border-t border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,hsl(var(--primary)/0.03),transparent_40%)] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-8 items-start mb-24">
             {/* Brand Info */}
             <div className="md:col-span-5 space-y-8">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-foreground text-background shadow-lg">
-                  <Logo className="size-6" />
-                </div>
+                <Logo className="size-6" />
                 <span className="text-2xl font-black tracking-tighter text-foreground">
                   newhorizn
                 </span>
@@ -709,8 +716,8 @@ export default async function Home() {
 
             {/* Links */}
             <div className="md:col-span-3 lg:col-offset-1 space-y-6">
-              <h3 className="text-sm font-black uppercase tracking-widest text-foreground">
-                Platform
+              <h3 className="text-sm font-bold uppercase tracking-widest text-foreground">
+                Links
               </h3>
               <ul className="space-y-4">
                 {["Features", "How it works", "Accommodations"].map((link) => (
@@ -729,12 +736,12 @@ export default async function Home() {
 
             {/* Contact Info */}
             <div className="md:col-span-4 space-y-6">
-              <h3 className="text-sm font-black uppercase tracking-widest text-foreground">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-foreground">
                 Support
               </h3>
               <div className="space-y-4">
                 <a
-                  href="mailto:chrysayita@gmail.com"
+                  href="mailto:support@newhorizn.com"
                   className="group flex items-center gap-4 p-3 rounded-2xl border border-transparent hover:border-border hover:bg-muted/50 transition-all duration-300"
                 >
                   <div className="size-10 rounded-xl bg-primary/5 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all">

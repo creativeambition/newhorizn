@@ -30,7 +30,7 @@ export function HelpFab({ href }: HelpFabProps) {
       {open && (
         <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
           <a
-            href="mailto:chrysayita@gmail.com"
+            href="mailto:support@newhorizn.com"
             className="flex items-center gap-3 rounded-full bg-background border border-border shadow-lg px-4 py-2.5 text-sm font-medium hover:bg-accent transition-colors"
           >
             <Mail className="h-4 w-4 text-primary shrink-0" />
@@ -51,7 +51,11 @@ export function HelpFab({ href }: HelpFabProps) {
         aria-label={open ? "Close help menu" : "Get help"}
         className="flex items-center justify-center h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all duration-200 hover:scale-105 active:scale-95"
       >
-        {open ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
+        {open ? (
+          <X className="h-5 w-5" />
+        ) : (
+          <MessageCircle className="h-5 w-5" />
+        )}
       </button>
     </div>
   );

@@ -32,16 +32,16 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  title: "NewHorizn – Hostel and Property Management Software",
+  title: "NewHorizn – Property Management for Hosts & Guests",
   description:
-    "NewHorizn is a cloud-native property management system for hostels, hotels, and student housing. Manage bookings, check-ins, and payments in one simple dashboard. Try for free.",
+    "Control for hosts. Calm for guests. NewHorizn is the all-in-one platform for student housing, hostels, and hotels. Manage bookings or find your next stay in minutes.",
   keywords: [
-    "hostel management software",
-    "property management system",
-    "student accommodation software",
-    "student housing management",
-    "short-term rental software",
-    "hostel booking engine",
+    "student housing platform",
+    "hostel booking system",
+    "property management software",
+    "short-term rental management",
+    "accommodation management",
+    "student accommodation booking",
     "bed space management",
   ],
 };
@@ -92,9 +92,11 @@ export default async function Home() {
       <Header />
       <HelpFab href="/support" />
 
-      {/* Hero Section */}
       <section className="relative w-full flex flex-col items-center text-center gap-6 md:gap-8 py-12 md:py-12 2xl:py-24 px-4 md:px-6 overflow-hidden">
         <HeroCaption />
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl animate-fade-in-up delay-200">
+          Control for hosts. Calm for guests.
+        </p>
 
         <div className="relative max-w-5xl animate-fade-in-up w-full">
           <div className="glass rounded-3xl overflow-hidden border-2 border-border dark:border-white/40">
@@ -142,7 +144,6 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* CTA Buttons */}
         <div className="relative flex flex-col sm:flex-row gap-4 animate-fade-in-up md:mt-12">
           <Link href="/auth/register">
             <Button
@@ -150,7 +151,7 @@ export default async function Home() {
               className="w-full sm:w-auto bg-primary hover:bg-primary/90 gap-2 h-12 px-8 rounded-xl shadow-lg hover:shadow-primary/20 transition-all duration-300"
             >
               <UserCheckIcon className="h-5 w-5" />
-              Start for Free
+              List property – Start free
             </Button>
           </Link>
           <Link href="/accommodations">
@@ -160,7 +161,7 @@ export default async function Home() {
               className="w-full sm:w-auto gap-2 h-12 px-8 rounded-xl glass hover:bg-primary/5 transition-all duration-300"
             >
               <Search className="h-5 w-5" />
-              Explore Listings
+              Find your stay – Browse rooms
             </Button>
           </Link>
         </div>
@@ -226,9 +227,8 @@ export default async function Home() {
               </h2>
             </div>
             <p className="text-muted-foreground text-base md:text-lg max-w-md leading-relaxed lg:text-right">
-              Built for hotel, hostel, and apartment owners who want a simpler
-              way to run their property — from bookings to payments, all in one
-              place.
+              Property management, simplified. For hotels, hostels, and
+              apartments.
             </p>
           </div>
 
@@ -255,9 +255,8 @@ export default async function Home() {
                   </div>
 
                   <p className="text-muted-foreground leading-relaxed text-[15px] mb-8 max-w-lg">
-                    Manage all rooms, beds, and capacity across your entire
-                    property. Track occupancy in real-time and optimize your
-                    space utilization.
+                    Control your property. Rooms, beds, occupancy – all in one
+                    dashboard.
                   </p>
 
                   {/* Mini dashboard mockup */}
@@ -301,8 +300,7 @@ export default async function Home() {
                     Booking Engine
                   </h3>
                   <p className="text-muted-foreground leading-relaxed text-[15px] mb-8">
-                    Real-time availability, instant confirmations, and automated
-                    check-in/check-out workflows — all in one place.
+                    Real-time availability and automated check-in workflows.
                   </p>
 
                   {/* Booking timeline mockup */}
@@ -363,8 +361,8 @@ export default async function Home() {
                     Payment Processing
                   </h3>
                   <p className="text-muted-foreground leading-relaxed text-[15px] mb-8">
-                    Secure payment handling with deposit tracking, invoicing,
-                    and automated receipt generation.
+                    Secure payment handling with deposit tracking and automated
+                    receipts.
                   </p>
 
                   <div className="mt-auto flex items-end justify-between p-4 rounded-xl bg-muted/50 border border-border/40">
@@ -408,8 +406,8 @@ export default async function Home() {
                   </div>
 
                   <p className="text-background/70 leading-relaxed text-[15px] mb-8 max-w-lg">
-                    Build comprehensive guest records with preferences, booking
-                    history, and payment details. Personalize every stay.
+                    Build comprehensive guest records with preferences and
+                    booking history. Personalize every stay.
                   </p>
 
                   <div className="mt-auto flex items-center gap-3 flex-wrap">
@@ -453,8 +451,7 @@ export default async function Home() {
               <span className="text-muted-foreground/50">in minutes</span>
             </h2>
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-              We&apos;ve simplified the setup so you can focus on what matters
-              most — your guests.
+              2-minute setup. Focus on your guests.
             </p>
           </div>
 
@@ -501,10 +498,57 @@ export default async function Home() {
                 size="lg"
                 className="h-13 px-10 rounded-xl bg-foreground text-background hover:bg-foreground/90 font-bold gap-2 shadow-xl transition-all duration-300"
               >
-                Create Your Free Account
+                Start Free Account
                 <ArrowRight className="size-4" />
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Testimonials Section ─── */}
+      <section className="py-24 bg-background overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+              Trusted by 60+ hosts
+            </h2>
+            <p className="text-muted-foreground">
+              See why property managers are switching to NewHorizn.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {[
+              {
+                quote:
+                  "Setting up our hostel took less than 5 minutes. The interface is clean, and my staff didn't even need training.",
+                author: "James A.",
+                role: "Hostel Manager",
+              },
+              {
+                quote:
+                  "Finally, a platform that doesn't feel like it was built in 1995. It's fast, reliable, and our guests love the booking flow.",
+                author: "Sarah K.",
+                role: "Apartment Owner",
+              },
+            ].map((t, i) => (
+              <div
+                key={i}
+                className="p-8 rounded-2xl bg-muted/30 border border-border/50 relative"
+              >
+                <div className="absolute top-6 left-6 text-primary/10">
+                  <Sparkles className="size-12" />
+                </div>
+                <p className="text-lg italic mb-6 relative z-10">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div>
+                  <p className="font-bold text-foreground">{t.author}</p>
+                  <p className="text-sm text-muted-foreground">{t.role}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -549,7 +593,7 @@ export default async function Home() {
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-[11px] font-black uppercase tracking-[0.2em] text-background/40 mb-8">
-            Ready to transform your operations?
+            Start managing smarter today
           </p>
 
           <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-8">
@@ -559,9 +603,8 @@ export default async function Home() {
           </h2>
 
           <p className="text-background/50 text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
-            Join the accommodation providers using newhorizn to manage bookings,
-            delight guests, and grow their properties — all in under 2 minutes
-            of setup.
+            Join the hosts using newhorizn to manage bookings and delight
+            guests – all in under 2 minutes of setup.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -571,7 +614,7 @@ export default async function Home() {
               asChild
             >
               <Link href="/auth/register" className="gap-2">
-                Create Your Free Account
+                Start free setup
                 <ArrowRight className="size-4" />
               </Link>
             </Button>
